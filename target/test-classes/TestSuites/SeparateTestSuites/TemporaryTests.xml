@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="TemporaryTests" verbose="1">
+	
+	<test name="Temporary E2E Tests">
+		<classes>
+			<class name="com.ondemand.commerce.temporarytests.TemporaryTests" />
+		</classes>
+	</test>
+
+</suite>
