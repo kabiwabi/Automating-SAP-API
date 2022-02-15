@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.opencsv.exceptions.CsvValidationException;
 import org.testng.annotations.DataProvider;
 
 import com.opencsv.CSVReader;
@@ -42,6 +43,8 @@ public class CsvDataProviders {
 			throw new RuntimeException("File " + pathname + " was not found.\n" + e.getStackTrace().toString());
 		} catch (IOException e) {
 			throw new RuntimeException("Could not read " + pathname + " file.\n" + e.getStackTrace().toString());
+		} catch (CsvValidationException e) {
+			e.printStackTrace();
 		}
 
 		return list.iterator();
