@@ -58,6 +58,6 @@ public class TemporaryTests extends TestUtilities {
         searchResults.printAllTires(tireList);
 //        ShoppingCartPage shoppingCartPage = navigationBar.ClickShoppingCart();
 //        shoppingCartPage.RemoveAllItems();
-//        sleep(10000);
+        sleep(10000);
     }
 }

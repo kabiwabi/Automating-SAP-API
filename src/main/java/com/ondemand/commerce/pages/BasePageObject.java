@@ -51,7 +51,7 @@ public class BasePageObject {
 
 	/** Click on element when its visible */
 	protected void elementClick(WebElement element) {
-		waitForVisibilityOfElement(element, 5);
+		waitForVisibilityOfElement(element, 30);
 		element.click();
 	}
 
@@ -59,7 +59,7 @@ public class BasePageObject {
 	 *  check that the confirmation box appears and waits for it to disappear
 	 */
 	protected void clickAndWait(WebElement element, By popUplocator) {
-		waitForVisibilityOfElement(element, 5);
+		waitForVisibilityOfElement(element, 30);
 		element.click();
 		waitForVisibilityOf(popUplocator, 30);
 		waitForInvisibilityOf(popUplocator, 30);
@@ -69,7 +69,7 @@ public class BasePageObject {
 	 *  wait for pop-up to be visible, then click the pop-up
 	 */
 	protected void clickAndClose(WebElement element, By popUplocator) {
-		waitForVisibilityOfElement(element, 5);
+		waitForVisibilityOfElement(element, 30);
 		element.click();
 		waitForVisibilityOf(popUplocator, 30);
 		click(popUplocator);
@@ -77,7 +77,7 @@ public class BasePageObject {
 
 	/** Type given text into element with given locator */
 	protected void type(String text, By locator) {
-		waitForVisibilityOf(locator, 5);
+		waitForVisibilityOf(locator, 30);
 		find(locator).sendKeys(text);
 	}
 
@@ -120,7 +120,7 @@ public class BasePageObject {
 	 */
 	protected void waitForVisibilityOf(By locator, Integer... timeOutInSeconds) {
 		int attempts = 0;
-		while (attempts < 2) {
+		while (attempts < 10) {
 			try {
 				waitFor(ExpectedConditions.visibilityOfElementLocated(locator),
 						(timeOutInSeconds.length > 0 ? timeOutInSeconds[0] : null));
@@ -133,7 +133,7 @@ public class BasePageObject {
 
 	protected void waitForInvisibilityOf(By locator, Integer... timeOutInSeconds) {
 		int attempts = 0;
-		while (attempts < 2) {
+		while (attempts < 10) {
 			try {
 				waitForBoolean(ExpectedConditions.invisibilityOfElementLocated(locator),
 						(timeOutInSeconds.length > 0 ? timeOutInSeconds[0] : null));
@@ -146,7 +146,7 @@ public class BasePageObject {
 
 	protected void waitForVisibilityOfElement(WebElement element, Integer... timeOutInSeconds) {
 		int attempts = 0;
-		while (attempts < 2) {
+		while (attempts < 10) {
 			try {
 				waitFor(ExpectedConditions.visibilityOf(element),
 						(timeOutInSeconds.length > 0 ? timeOutInSeconds[0] : null));
