@@ -15,7 +15,7 @@ public class LoginPage extends BasePageObject {
 		super(driver, log);
 	}
 
-	/** Execute log in */
+	//method accepts two strings(user/PW) and logs in with them
 	public HomePage logIn(String username, String password) {
 		log.info("Executing LogIn with username [" + username + "] and password [" + password + "]");
 		type(username, usernameLocator);

@@ -43,7 +43,6 @@
 			<version>2.17.1</version>
 		</dependency>
 
-
 		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -110,10 +109,10 @@
 		</repository>
 	</repositories>
 
-
 	<build>
 
 		<plugins>
+
 			<!-- https://maven.apache.org/plugins/maven-compiler-plugin/examples/set-compiler-source-and-target.html -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -135,6 +134,7 @@
 						<suiteXmlFile>src/test/resources/TestSuites/testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
+
 			</plugin>
 
 		</plugins>

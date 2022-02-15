@@ -11,11 +11,15 @@ import java.util.stream.Collectors;
 
 public class SearchResultsPage extends NavigationBar{
 
+    //locators for buttons
     private By addToCartLocator = By.xpath("//button[@class='quantity-input__btn quantity-input__btn--up'][normalize-space()='+']");
     private By getEtaLocator = By.xpath("//button[@class='btn btn-primary btn-small viewETA viewETA--search']");
     private By addToOrderLocator = By.xpath("//button[@class='addToCartButton btn btn-primary btn-lg']");
+
+    //locator for the popup that occurs when you press "GET ETA"
     private By notificationMessageLocator = By.xpath("//p[@class='c-cart-notification__message']");
 
+    //locators for all fields we store about the tire products
     private By msrpLocator = By.xpath("//*[@class='search-results__price-item search-results__price-item--msrp']");
     private By suggestedPriceLocator = By.xpath("//*[@class='search-results__price-item search-results__price-item-suggested']");
     private By skuLocator = By.xpath("//div[@class='sku']");
@@ -60,7 +64,8 @@ public class SearchResultsPage extends NavigationBar{
         return locatorStringList;
     }
 
-    //calls the getLocatorList method for a specific locator (sku, tire name, price etc)
+    //getters for all the fields we store about each tire product
+
     public List getSkuList() {
         List<String> tempList = getLocatorList(skuLocator);
         return tempList;

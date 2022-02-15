@@ -49,15 +49,15 @@ public class TemporaryTests extends TestUtilities {
         SearchResultsPage searchResults = bySpecificationPage.clickSearch();
         searchResults.clickPlusOneForAll();
         searchResults.clickEtaForAll();
-//        searchResults.clickAddToCartForAll();
+//      searchResults.clickAddToCartForAll();
 
         List<Tire> tireList = new ArrayList<>();
         searchResults.initializeTireList(searchResults.getSkuList(), tireList);
         searchResults.assignAllTire(searchResults.getSkuList(),searchResults.getTireNameList(),searchResults.getMSRPList(),searchResults.getSuggPriceList(),
                                     searchResults.getLocalList(),searchResults.getWarehouseList(),searchResults.getEtaList(), tireList);
         searchResults.printAllTires(tireList);
-//        ShoppingCartPage shoppingCartPage = navigationBar.ClickShoppingCart();
-//        shoppingCartPage.RemoveAllItems();
+//      ShoppingCartPage shoppingCartPage = navigationBar.ClickShoppingCart();
+//      shoppingCartPage.RemoveAllItems();
         sleep(10000);
     }
 }

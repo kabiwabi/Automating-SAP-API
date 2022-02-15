@@ -131,6 +131,8 @@ public class BasePageObject {
 		}
 	}
 
+	//accepts a locator & integer,
+	// waits for "integer" seconds for the web element identified by the locator to become invisible
 	protected void waitForInvisibilityOf(By locator, Integer... timeOutInSeconds) {
 		int attempts = 0;
 		while (attempts < 10) {
@@ -144,6 +146,8 @@ public class BasePageObject {
 		}
 	}
 
+	//accepts a web element object & integer,
+	//waits for "integer" seconds for the web element identified by the locator to become invisible
 	protected void waitForVisibilityOfElement(WebElement element, Integer... timeOutInSeconds) {
 		int attempts = 0;
 		while (attempts < 10) {

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 
 public class NavigationBar extends BasePageObject{
 
+    //locators for all the buttons for the navigation bar on top of the page
     private By homeButtonLocator = By.xpath("//a[@title='Home']");
     private By productSearchButtonLocator = By.xpath("//a[@title='Product search']");
     private By findTiresBySpecificationsLocator = By.xpath("//a[@title='Find tires by specifications']");
@@ -18,22 +19,26 @@ public class NavigationBar extends BasePageObject{
     private By contactUsButtonLocator = By.xpath("//a[@title='Contact us']");
     private By shoppingCartButtonLocator = By.xpath("//a[@class='mini-cart-link js-mini-cart-link']");
 
+    //constructor for "NavigationBar" object
     public NavigationBar(WebDriver driver, Logger log) {
         super(driver, log);
     }
 
+    //clicks the home page button and returns a "HomePage" object
     public HomePage ClickHome() {
         log.info("Clicking the home button");
         click(homeButtonLocator);
         return new HomePage(driver, log);
     }
 
+    //clicks the shopping cart button and returns a "Shopping Cart" object
     public ShoppingCartPage ClickShoppingCart() {
         log.info("Clicking the shopping cart button");
         click(shoppingCartButtonLocator);
         return new ShoppingCartPage(driver, log);
     }
 
+    //clicks the "search button" and clicks the "find tires by specification" button
     public FindTiresBySpecificationPage ClickFindTiresBySpecification() {
         log.info("Clicking the search button");
         click(productSearchButtonLocator);
