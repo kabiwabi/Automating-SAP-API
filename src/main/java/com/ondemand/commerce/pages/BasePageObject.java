@@ -58,11 +58,11 @@ public class BasePageObject {
 	/** Click on element when visible
 	 *  check that the confirmation box appears and waits for it to disappear
 	 */
-	protected void clickAndWait(WebElement element, By popUplocator) {
+	protected void clickAndWait(WebElement element, By popupLocator) {
 		waitForVisibilityOfElement(element, 30);
 		element.click();
-		waitForVisibilityOf(popUplocator, 30);
-		waitForInvisibilityOf(popUplocator, 30);
+		waitForVisibilityOf(popupLocator, 30);
+		waitForInvisibilityOf(popupLocator, 30);
 	}
 
 	/** Click on element when visible

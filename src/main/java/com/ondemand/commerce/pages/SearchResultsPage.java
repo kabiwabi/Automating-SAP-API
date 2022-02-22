@@ -27,6 +27,7 @@ public class SearchResultsPage extends NavigationBar{
     private By localAvailLocator = By.xpath("//div[@class='search-results__on-hand-item search-results__on-hand-item--local_count']//p");
     private By warehouseAvailLocator = By.xpath("//div[@class='search-results__on-hand-item search-results__on-hand-item--warehouse_count']//p");
     private By etaLocator = By.xpath("//table[@class='item__eta_table table-striped not-visible']//td[2]");
+    private By pleaseWaitLocator = By.xpath("//div[@class='loading-overlay__inner']");
 
     public SearchResultsPage(WebDriver driver, Logger log) {
         super(driver, log);
@@ -45,7 +46,7 @@ public class SearchResultsPage extends NavigationBar{
         log.info("Clicking \"GET ETA\" for each item");
         scrollToTop();
         List<WebElement> listGetEta = findAll(getEtaLocator);
-        listGetEta.stream().forEach(this::elementClick);
+        listGetEta.stream().forEach(element -> clickAndWait(element, pleaseWaitLocator));
     }
 
     //clicks "add to cart" for each item displayed on the search results page
@@ -65,7 +66,6 @@ public class SearchResultsPage extends NavigationBar{
     }
 
     //getters for all the fields we store about each tire product
-
     public List getSkuList() {
         List<String> tempList = getLocatorList(skuLocator);
         return tempList;

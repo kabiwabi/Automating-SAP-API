@@ -47,12 +47,14 @@ public class TemporaryTests extends TestUtilities {
         FindTiresBySpecificationPage bySpecificationPage = navigationBar.ClickFindTiresBySpecification();
         bySpecificationPage.FillTireSize("225");
         SearchResultsPage searchResults = bySpecificationPage.clickSearch();
+        // adds one of each product to the cart
         searchResults.clickPlusOneForAll();
+        // clicks get ETA for each product
         searchResults.clickEtaForAll();
-//      searchResults.clickAddToCartForAll();
-
+        // initialize a list to store attributes of each product
         List<Tire> tireList = new ArrayList<>();
         searchResults.initializeTireList(searchResults.getSkuList(), tireList);
+        // store attributes of each product
         searchResults.assignAllTire(searchResults.getSkuList(),searchResults.getTireNameList(),searchResults.getMSRPList(),searchResults.getSuggPriceList(),
                                     searchResults.getLocalList(),searchResults.getWarehouseList(),searchResults.getEtaList(), tireList);
         searchResults.printAllTires(tireList);
