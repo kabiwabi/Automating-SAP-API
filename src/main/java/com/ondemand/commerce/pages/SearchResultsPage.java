@@ -15,6 +15,7 @@ public class SearchResultsPage extends NavigationBar{
     private By addToCartLocator = By.xpath("//button[@class='quantity-input__btn quantity-input__btn--up'][normalize-space()='+']");
     private By getEtaLocator = By.xpath("//button[@class='btn btn-primary btn-small viewETA viewETA--search']");
     private By addToOrderLocator = By.xpath("//button[@class='addToCartButton btn btn-primary btn-lg']");
+    private By quantityLocator = By.xpath("//div[@class='quantity-input']//input");
 
     //locator for the popup that occurs when you press "GET ETA"
     private By notificationMessageLocator = By.xpath("//p[@class='c-cart-notification__message']");
@@ -37,8 +38,8 @@ public class SearchResultsPage extends NavigationBar{
     public void clickPlusOneForAll() {
         log.info("Adding one of each item to count");
         scrollToTop();
-        List<WebElement> listAddToCart = findAll(addToCartLocator);
-        listAddToCart.stream().forEach(this::elementClick);
+        List<WebElement> listAddToCart = findAll(quantityLocator);
+        listAddToCart.stream().forEach( element -> element.sendKeys("1"));
     }
 
     //clicks "Get ETA" for each item displayed on the search results page
