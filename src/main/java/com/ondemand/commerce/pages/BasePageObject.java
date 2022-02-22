@@ -22,6 +22,7 @@ public class BasePageObject {
 
 	protected WebDriver driver;
 	protected Logger log;
+	public String productSku;
 
 	public BasePageObject(WebDriver driver, Logger log) {
 		this.driver = driver;

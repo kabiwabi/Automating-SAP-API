@@ -29,17 +29,23 @@ public class SearchResultsPage extends NavigationBar{
     private By warehouseAvailLocator = By.xpath("//div[@class='search-results__on-hand-item search-results__on-hand-item--warehouse_count']//p");
     private By etaLocator = By.xpath("//table[@class='item__eta_table table-striped not-visible']//td[2]");
     private By pleaseWaitLocator = By.xpath("//div[@class='loading-overlay__inner']");
+    private By completeSkuLocator = By.xpath("//input[@type='hidden'][@class='productCodePost']");
 
     public SearchResultsPage(WebDriver driver, Logger log) {
         super(driver, log);
     }
 
+    public List getCompleteSkuList() {
+        List<WebElement> listCompleteSku = getLocatorSkuList(completeSkuLocator);
+        return listCompleteSku;
+    }
+
     //clicks the "+1" button for each item displayed on the search results page
-    public void clickPlusOneForAll() {
+    public void addToCart(String quantityToAdd) {
         log.info("Adding one of each item to count");
         scrollToTop();
         List<WebElement> listAddToCart = findAll(quantityLocator);
-        listAddToCart.stream().forEach( element -> element.sendKeys("1"));
+        listAddToCart.stream().forEach( element -> element.sendKeys(quantityToAdd));
     }
 
     //clicks "Get ETA" for each item displayed on the search results page
@@ -63,6 +69,13 @@ public class SearchResultsPage extends NavigationBar{
         List<WebElement> webElementList = findAll(locator);
         List<String> locatorStringList;
         locatorStringList = webElementList.stream().map(element -> element.getAttribute("innerText")).collect(Collectors.toList());
+        return locatorStringList;
+    }
+
+    public List getLocatorSkuList(By locator) {
+        List<WebElement> webElementList = findAll(locator);
+        List<String> locatorStringList;
+        locatorStringList = webElementList.stream().map(element -> element.getAttribute("value")).collect(Collectors.toList());
         return locatorStringList;
     }
 
