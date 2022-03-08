@@ -1,6 +1,5 @@
 package com.ondemand.commerce.pages;
 
-import com.ondemand.commerce.pages.Reference.*;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -32,37 +31,6 @@ public class WelcomePage extends BasePageObject {
 		log.info("Confirming login page");
 		click(englishLanguageButton);
 		return new LoginPage(driver, log);
-	}
-
-	/** Open CheckboxesPage by clicking on Checkboxes Link */
-	public CheckboxesPage clickCheckboxesLink() {
-		log.info("Clicking Checkboxes link on Welcome Page");
-		click(checkboxesLinkLocator);
-		return new CheckboxesPage(driver, log);
-	}
-
-	public DropdownPage clickDropdownLink() {
-		log.info("Clicking Dropdown link on Welcome Page");
-		click(dropdownLinkLocator);
-		return new DropdownPage(driver, log);
-	}
-
-	public JavaScriptAlertsPage clickJavaScriptAlertsLink() {
-		log.info("Clicking JavaScript Alerts link on Welcome Page");
-		click(javaScriptAlertsLinkLocator);
-		return new JavaScriptAlertsPage(driver, log);
-	}
-
-	public WindowsPage clickMultipleWindowsLink() {
-		log.info("Clicking Multiple Windows link on Welcome Page");
-		click(multipleWindowsLinkLocator);
-		return new WindowsPage(driver, log);
-	}
-
-	public EditorPage clickWYSIWYGEditorLink() {
-		log.info("Clicking WYSIWYG Editor link on Welcome Page");
-		click(editorLinkLocator);
-		return new EditorPage(driver, log);
 	}
 
 }

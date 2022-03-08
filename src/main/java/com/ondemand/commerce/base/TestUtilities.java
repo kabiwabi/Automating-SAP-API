@@ -68,4 +68,5 @@ public class TestUtilities extends BaseTest {
 		List<LogEntry> logList = log.getAll();
 		return logList;
 	}
+
 }

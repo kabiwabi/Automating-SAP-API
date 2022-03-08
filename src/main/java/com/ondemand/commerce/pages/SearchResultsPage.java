@@ -1,12 +1,27 @@
 package com.ondemand.commerce.pages;
 
 import com.ondemand.commerce.pages.data.Tire;
+import okhttp3.Headers;
+import okhttp3.ResponseBody;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import retrofit.model.*;
+import retrofit.service.Client;
+import retrofit.service.PricingService;
+import retrofit2.Call;
+import retrofit2.Response;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
+
+import java.io.IOException;
+import java.io.File;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class SearchResultsPage extends NavigationBar{
@@ -30,6 +45,21 @@ public class SearchResultsPage extends NavigationBar{
     private By etaLocator = By.xpath("//table[@class='item__eta_table table-striped not-visible']//td[2]");
     private By pleaseWaitLocator = By.xpath("//div[@class='loading-overlay__inner']");
     private By completeSkuLocator = By.xpath("//input[@type='hidden'][@class='productCodePost']");
+
+    private String baseURL;
+    private String driverPath;
+    private WebDriver driver;
+    private String asmUserName;
+    private String password;
+    private String customerNumber;
+    private String customerName;
+    private String webdriverHeadless;
+    private String s4BaseURL;
+    private String s4AuthorizationName;
+    private String s4AuthorizationPassword;
+    private List<String> xmlPriceListTypes = new ArrayList<String>();
+    private List<String> xmlMaterialsList = new ArrayList<String>();
+    public static String FILENAME = "";
 
     public SearchResultsPage(WebDriver driver, Logger log) {
         super(driver, log);
@@ -149,6 +179,199 @@ public class SearchResultsPage extends NavigationBar{
 
     public void printFromList(List<String> myList) {
         myList.stream().forEach(System.out::println);
+    }
+
+    public CustomerPricing getPricingFromS4()  throws IOException {
+        String csrfToken = "";
+        PricingService service = Client.getRetrofitInstance("http://tch-s4hds1.grtouchette.com:8000/","kwang","Kabin321!!!")
+                .create(PricingService.class);
+        Call<ResponseBody> call = service.getPricingCSRFToken();
+        /**
+         * NOTE: when we call the API, it will always response error:501 not implemented.
+         *       It is normal. We just call the API to get x-csrf-token and cookies for next Post method.
+         *       So we don't check response is successful or not.
+         */
+        Response<ResponseBody> response = call.execute();
+        //get x-csrf-token header
+        Headers headers = response.headers();
+        for (String name : headers.toMultimap().keySet()) {
+            if (name != null && "x-csrf-token".equalsIgnoreCase(name)) {
+                csrfToken = headers.get(name);
+                break;
+            }
+        }
+        //check x-csrf-token is empty or not
+        if(csrfToken.isEmpty()) {
+            System.out.println("Didn't receive a x-csrf-token! Exit abnormal!");
+            System.exit(1);
+        }
+        //get response' cookie set
+        List<String> cookieList = response.headers().values("set-cookie");
+
+        /**
+         * call post method of Pricing API to get response of searching price.
+         *
+         */
+        //Prepare Body of request in JSON
+        RequestPricingBody requestPricingBody = initialRequestBodyJson();
+        Call<CustomerPricing> callJson = service.postPricingSearchGson(requestPricingBody, csrfToken, cookieList);
+        Response<CustomerPricing> customerPricingResponse = callJson.execute();
+        if (customerPricingResponse.isSuccessful()) {
+            System.out.println("Retrieve Pricing from S4 API is successful");
+        } else {
+            System.out.println("Retrieve Pricing from S4 API failed! Exit abnormal!");
+            System.exit(1);
+        }
+        //Got Response body in JSON and converted to POJO object.
+        CustomerPricing customerPricing = customerPricingResponse.body();
+        return customerPricing;
+    }
+
+    /**
+     * Return a request body POJO object with the required JSON structure in the document of Pricing API
+     * Data source is from the instance variables which are set through method readConfigurationXML().
+     *
+     * @return a new RequestPricingBody
+     */
+    private RequestPricingBody initialRequestBodyJson() {
+        readConfigurationXML();
+        List<RequestPriceListTypesResult> requestPriceListTypesResults = new ArrayList<RequestPriceListTypesResult>();
+        //Iterating the ArrayList of xmlPriceListTypes using Lambda Expression
+        xmlPriceListTypes.forEach( (n) -> {
+            requestPriceListTypesResults.add(new RequestPriceListTypesResult(n));
+        });
+        RequestPriceListTypes requestPriceListTypes= new RequestPriceListTypes();
+        requestPriceListTypes.setResults(requestPriceListTypesResults);
+        List<RequestMaterialsListResult> requestMaterialsListResults = new ArrayList<RequestMaterialsListResult>();
+        //Iterating the ArrayList of xmlMaterialsList
+        //Use Java's Consumer interface to store a lambda expression in a variable:
+        Consumer<String> method = (n) -> { requestMaterialsListResults.add(new RequestMaterialsListResult(n)); };
+        xmlMaterialsList.forEach(method);
+        RequestMaterialsList requestMaterialsList= new RequestMaterialsList();
+        requestMaterialsList.setResults(requestMaterialsListResults);
+        RequestPricingBody requestPricingBody = new RequestPricingBody();
+        requestPricingBody.setCustomerNumber(customerNumber);
+        requestPricingBody.setMaterialsList(requestMaterialsList);
+        requestPricingBody.setPriceListTypes(requestPriceListTypes);
+        requestPricingBody.setNoEmptyLiquidationPrice(false);
+        requestPricingBody.setSortByQty(true);
+        return requestPricingBody;
+    }
+
+    private void readConfigurationXML() {
+        SAXReader reader = new SAXReader();
+        Document document = null;
+        //begin for developing and debug. For runnable jar file version, please comment it.
+        FILENAME = "C:\\Users\\Wang\\Documents\\GitHub\\TouchetteAutomation\\configurationWindows.xml.tld";
+        //end of for developing and debug.
+        try {
+            document = reader.read(new File(FILENAME));
+        } catch (DocumentException e) {
+            System.out.println("Can't open " + FILENAME +" ! Please check there is the file in current folder.");
+            System.out.println(e);
+            System.exit(1);
+        }
+        // Get baseURL
+        Node node = document.selectSingleNode("//baseURL"); //using XPath to get xml node
+        if (node == null) { // doesn't find baseURL in the xml file
+            System.out.println("Can't find xml node: <baseURL></baseURL> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            baseURL = node.getStringValue();
+        }
+        // Get webdriverHeadless
+        node = document.selectSingleNode("//webdriverHeadless");
+        if (node == null) {
+            System.out.println("Can't find xml node: <webdriverHeadless></webdriverHeadless> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            webdriverHeadless = node.getStringValue();
+        }
+        // Get Chrome driver path
+        node = document.selectSingleNode("//chromeDriver");
+        if (node == null) {
+            System.out.println("Can't find xml node: <chromeDriver></chromeDriver> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            driverPath = node.getStringValue();
+        }
+        // Get S4 baseURL
+        node = document.selectSingleNode("//s4BaseURL");
+        if (node == null) {
+            System.out.println("Can't find xml node: <s4BaseURL></s4BaseURL> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            s4BaseURL = node.getStringValue();
+        }
+        // Get S4 Authorization's User Name
+        node = document.selectSingleNode("//s4AuthorizationName");
+        if (node == null) {
+            System.out.println("Can't find xml node: <s4AuthorizationName></s4AuthorizationName> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            s4AuthorizationName = node.getStringValue();
+        }
+        // Get S4 Authorization's User Password
+        node = document.selectSingleNode("//s4AuthorizationPassword");
+        if (node == null) {
+            System.out.println("Can't find xml node: <s4AuthorizationPassword></s4AuthorizationPassword> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            s4AuthorizationPassword = node.getStringValue();
+        }
+        // Get Test data
+        node = document.selectSingleNode("//testCase[@id=\"case004\"]/asmUserName");
+        if (node == null) {
+            System.out.println("Can't find xml node: <testCase id=\"case004\"><asmUserName></asmUserName></testCase> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            asmUserName = node.getStringValue();
+        }
+        node = document.selectSingleNode("//testCase[@id=\"case004\"]/password");
+        if (node == null) {
+            System.out.println("Can't find xml node: <testCase id=\"case004\"><password></password></testCase> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            password = node.getStringValue();
+        }
+        node = document.selectSingleNode("//testCase[@id=\"case004\"]/customerNumber");
+        if (node == null) {
+            System.out.println("Can't find xml node: <testCase id=\"case004\"><customerNumber></customerNumber></testCase> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            customerNumber = node.getStringValue();
+        }
+        node = document.selectSingleNode("//testCase[@id=\"case004\"]/customerName");
+        if (node == null) {
+            System.out.println("Can't find xml node: <testCase id=\"case004\"><customerName></customerName></testCase> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            customerName = node.getStringValue();
+        }
+        // Get Test data for S4 Restful Pricing API request body: priceListTypes
+        List<Node> listNodes = document.selectNodes("//testCase[@id=\"case004\"]/priceListTypes/type");
+        if (listNodes == null) {
+            System.out.println("Can't find xml node: <testCase id=\"case004\"><priceListTypes><type></type></priceListTypes></testCase> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            for (Iterator<Node> iter = listNodes.iterator(); iter.hasNext();) {
+                node = iter.next();
+                String typeInS4API = node.getStringValue();
+                xmlPriceListTypes.add(typeInS4API);
+            }
+        }
+        // Get Test data for S4 Restful Pricing API request body: materialsList
+        listNodes = document.selectNodes("//testCase[@id=\"case004\"]/materialsList/material");
+        if (listNodes == null) {
+            System.out.println("Can't find xml node: <testCase id=\"case004\"><materialsList><material></material></materialsList></testCase> in configuartion xml! ");
+            System.exit(1);
+        } else {
+            for (Iterator<Node> iter = listNodes.iterator(); iter.hasNext();) {
+                node = iter.next();
+                String materialInS4API = node.getStringValue();
+                xmlMaterialsList.add(materialInS4API);
+            }
+        }
     }
 
 }
