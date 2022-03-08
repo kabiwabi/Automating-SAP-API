@@ -60,8 +60,8 @@ public class TemporaryTests extends TestUtilities {
     String materialsList = customerPricing.getD().getMaterialsList().getResults().get(0).getPrice();
     EtaRequest etaRequest = searchResults.getETAfromS4();
     String etaList = etaRequest.getD2().getEtaResults().get(0).getDescription();
-    System.out.println("The products SKU is :" + materialsList);
-    System.out.println("The delivery date is :" + etaList);
+    System.out.println("The price retrieved from S4 is :" + materialsList);
+    System.out.println("The expected delivery date retrieved from S4 is :" + etaList);
 
 //    ShoppingCartPage shoppingCartPage = navigationBar.ClickShoppingCart();
 //    shoppingCartPage.RemoveAllItems();

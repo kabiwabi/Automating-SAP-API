@@ -188,11 +188,7 @@ public class SearchResultsPage extends NavigationBar{
         PricingService service = Client.getRetrofitInstance("http://tch-s4hds1.grtouchette.com:8000/","kwang","Kabin321!!!")
                 .create(PricingService.class);
         Call<ResponseBody> call = service.getPricingCSRFToken();
-        /**
-         * NOTE: when we call the API, it will always response error:501 not implemented.
-         *       It is normal. We just call the API to get x-csrf-token and cookies for next Post method.
-         *       So we don't check response is successful or not.
-         */
+
         Response<ResponseBody> response = call.execute();
         //get x-csrf-token header
         Headers headers = response.headers();
@@ -210,11 +206,6 @@ public class SearchResultsPage extends NavigationBar{
         //get response' cookie set
         List<String> cookieList = response.headers().values("set-cookie");
 
-        /**
-         * call post method of Pricing API to get response of searching price.
-         *
-         */
-        //Prepare Body of request in JSON
         RequestPricingBody requestPricingBody = initialRequestBodyJson();
         Call<CustomerPricing> callJson = service.postPricingSearchGson(requestPricingBody, csrfToken, cookieList);
         Response<CustomerPricing> customerPricingResponse = callJson.execute();
@@ -235,11 +226,7 @@ public class SearchResultsPage extends NavigationBar{
         EtaService service2 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/","kwang","Kabin321!!!").
                 create(EtaService.class);
         Call<ResponseBody> call = service2.getEtaCSRFToken();
-        /**
-         * NOTE: when we call the API, it will always response error:501 not implemented.
-         *       It is normal. We just call the API to get x-csrf-token and cookies for next Post method.
-         *       So we don't check response is successful or not.
-         */
+
         Response<ResponseBody> response = call.execute();
         //get x-csrf-token header
         Headers headers = response.headers();
@@ -257,10 +244,6 @@ public class SearchResultsPage extends NavigationBar{
         //get response' cookie set
         List<String> cookieList = response.headers().values("set-cookie");
 
-        /**
-         * call post method of Pricing API to get response of searching ETA.
-         *
-         */
         EtaService service3 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/","kwang","Kabin321!!!").
                 create(EtaService.class);
 
@@ -278,12 +261,6 @@ public class SearchResultsPage extends NavigationBar{
         return etaRequest;
     }
 
-    /**
-     * Return a request body POJO object with the required JSON structure in the document of Pricing API
-     * Data source is from the instance variables which are set through method readConfigurationXML().
-     *
-     * @return a new RequestPricingBody
-     */
     private RequestPricingBody initialRequestBodyJson() {
         readConfigurationXML();
         List<RequestPriceListTypesResult> requestPriceListTypesResults = new ArrayList<RequestPriceListTypesResult>();
