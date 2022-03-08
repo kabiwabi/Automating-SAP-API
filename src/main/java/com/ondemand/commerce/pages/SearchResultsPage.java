@@ -7,8 +7,10 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import retrofit.model.*;
+import retrofit.etaModels.*;
+import retrofit.model.pricingModels.*;
 import retrofit.service.Client;
+import retrofit.service.EtaService;
 import retrofit.service.PricingService;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -227,6 +229,55 @@ public class SearchResultsPage extends NavigationBar{
         return customerPricing;
     }
 
+    public EtaRequest getETAfromS4()  throws IOException {
+        String fullURL = "Customer eq '1006707' and Material eq '03476500000.CONT' and OrderQty eq '50' and RequestDate eq datetime'2022-02-18T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
+        String csrfToken = "";
+        EtaService service2 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/","kwang","Kabin321!!!").
+                create(EtaService.class);
+        Call<ResponseBody> call = service2.getEtaCSRFToken();
+        /**
+         * NOTE: when we call the API, it will always response error:501 not implemented.
+         *       It is normal. We just call the API to get x-csrf-token and cookies for next Post method.
+         *       So we don't check response is successful or not.
+         */
+        Response<ResponseBody> response = call.execute();
+        //get x-csrf-token header
+        Headers headers = response.headers();
+        for (String name : headers.toMultimap().keySet()) {
+            if (name != null && "x-csrf-token".equalsIgnoreCase(name)) {
+                csrfToken = headers.get(name);
+                break;
+            }
+        }
+        //check x-csrf-token is empty or not
+        if(csrfToken.isEmpty()) {
+            System.out.println("Didn't receive a x-csrf-token! Exit abnormal!");
+            System.exit(1);
+        }
+        //get response' cookie set
+        List<String> cookieList = response.headers().values("set-cookie");
+
+        /**
+         * call post method of Pricing API to get response of searching ETA.
+         *
+         */
+        EtaService service3 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/","kwang","Kabin321!!!").
+                create(EtaService.class);
+
+        Call<EtaRequest> callJson = service3.getEtaGson(fullURL, csrfToken, cookieList);
+
+        Response<EtaRequest> etaRequestResponse = callJson.execute();
+        if (etaRequestResponse.isSuccessful()) {
+            System.out.println("Retrieve ETA from S4 API is successful");
+        } else {
+            System.out.println("Retrieve ETA from S4 API failed! Exit abnormal!");
+            System.exit(1);
+        }
+        //Got Response body in JSON and converted to POJO object.
+        EtaRequest etaRequest = etaRequestResponse.body();
+        return etaRequest;
+    }
+
     /**
      * Return a request body POJO object with the required JSON structure in the document of Pricing API
      * Data source is from the instance variables which are set through method readConfigurationXML().
@@ -262,7 +313,7 @@ public class SearchResultsPage extends NavigationBar{
         SAXReader reader = new SAXReader();
         Document document = null;
         //begin for developing and debug. For runnable jar file version, please comment it.
-        FILENAME = "C:\\Users\\Wang\\Documents\\GitHub\\TouchetteAutomation\\configurationWindows.xml.tld";
+        FILENAME = "C:\\Users\\kwang\\Documents\\TouchetteAutomation\\configurationWindows.xml.tld";
         //end of for developing and debug.
         try {
             document = reader.read(new File(FILENAME));

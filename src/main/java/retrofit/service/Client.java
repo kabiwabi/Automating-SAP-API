@@ -1,18 +1,13 @@
 package retrofit.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
 
 import okhttp3.*;
+import retrofit.model.pricingModels.CustomerPricing;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit.model.*;
 
 public class Client {
     private List<String> xmlPriceListTypes = new ArrayList<String>();

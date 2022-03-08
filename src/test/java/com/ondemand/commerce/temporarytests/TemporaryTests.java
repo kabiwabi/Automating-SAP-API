@@ -2,9 +2,8 @@ package com.ondemand.commerce.temporarytests;
 
 import com.ondemand.commerce.base.TestUtilities;
 import com.ondemand.commerce.pages.*;
-import com.ondemand.commerce.pages.data.Tire;
-import retrofit.model.*;
-import retrofit.service.*;
+import retrofit.etaModels.EtaRequest;
+import retrofit.model.pricingModels.CustomerPricing;
 
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -12,7 +11,6 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TemporaryTests extends TestUtilities {
     private ArrayList<WebElement> msrpList = new ArrayList<>();
@@ -60,7 +58,10 @@ public class TemporaryTests extends TestUtilities {
 //    searchResults.printAllTires(tireList);
     CustomerPricing customerPricing = searchResults.getPricingFromS4();
     String materialsList = customerPricing.getD().getMaterialsList().getResults().get(0).getPrice();
-    System.out.print("The price of the first search result is :" + materialsList);
+    EtaRequest etaRequest = searchResults.getETAfromS4();
+    String etaList = etaRequest.getD2().getEtaResults().get(0).getDescription();
+    System.out.println("The products SKU is :" + materialsList);
+    System.out.println("The delivery date is :" + etaList);
 
 //    ShoppingCartPage shoppingCartPage = navigationBar.ClickShoppingCart();
 //    shoppingCartPage.RemoveAllItems();
