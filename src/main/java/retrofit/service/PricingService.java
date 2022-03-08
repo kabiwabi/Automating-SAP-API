@@ -6,8 +6,8 @@ import okhttp3.*;
 import retrofit2.Call;
 import retrofit2.http.*;
 import retrofit2.http.Headers;
-import retrofit.model.pricingModels.RequestPricingBody;
-import retrofit.model.pricingModels.CustomerPricing;
+import retrofit.pricingModels.RequestPricingBody;
+import retrofit.pricingModels.CustomerPricing;
 
 public interface PricingService {
 
