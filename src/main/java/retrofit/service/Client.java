@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.*;
-import retrofit.model.pricingModels.CustomerPricing;
+import retrofit.pricingModels.CustomerPricing;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

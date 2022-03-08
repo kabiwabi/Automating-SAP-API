@@ -8,7 +8,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import retrofit.etaModels.*;
-import retrofit.model.pricingModels.*;
+import retrofit.pricingModels.*;
+import retrofit.pricingModels.*;
 import retrofit.service.Client;
 import retrofit.service.EtaService;
 import retrofit.service.PricingService;
@@ -264,15 +265,12 @@ public class SearchResultsPage extends NavigationBar{
     private RequestPricingBody initialRequestBodyJson() {
         readConfigurationXML();
         List<RequestPriceListTypesResult> requestPriceListTypesResults = new ArrayList<RequestPriceListTypesResult>();
-        //Iterating the ArrayList of xmlPriceListTypes using Lambda Expression
         xmlPriceListTypes.forEach( (n) -> {
             requestPriceListTypesResults.add(new RequestPriceListTypesResult(n));
         });
         RequestPriceListTypes requestPriceListTypes= new RequestPriceListTypes();
         requestPriceListTypes.setResults(requestPriceListTypesResults);
         List<RequestMaterialsListResult> requestMaterialsListResults = new ArrayList<RequestMaterialsListResult>();
-        //Iterating the ArrayList of xmlMaterialsList
-        //Use Java's Consumer interface to store a lambda expression in a variable:
         Consumer<String> method = (n) -> { requestMaterialsListResults.add(new RequestMaterialsListResult(n)); };
         xmlMaterialsList.forEach(method);
         RequestMaterialsList requestMaterialsList= new RequestMaterialsList();
@@ -401,5 +399,4 @@ public class SearchResultsPage extends NavigationBar{
             }
         }
     }
-
 }

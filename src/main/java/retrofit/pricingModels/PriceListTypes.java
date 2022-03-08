@@ -1,4 +1,4 @@
-package retrofit.model.pricingModels;
+package retrofit.pricingModels;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
