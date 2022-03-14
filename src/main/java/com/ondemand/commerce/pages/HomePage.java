@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 public class HomePage extends NavigationBar {
 
 	//URL for the hybris storefront
-	private String pageUrl = "https://accstorefront.cb46rr50dx-groupetou1-s1-nat.model-t.cc.commerce.ondemand.com/touchettestorefront/touchette/en/";
+	private String pageUrl = "https://accstorefront.cb46rr50dx-groupetou1-d1-nat.model-t.cc.commerce.ondemand.com/touchettestorefront/touchette/en/login";
 
 	//locators for logout button
 	private By logOutButton = By.xpath("//a[normalize-space()='Sign out']");
