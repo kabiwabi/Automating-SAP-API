@@ -9,6 +9,7 @@ public class Tire {
     private String warehouseAvailability;
     private String eta;
     private String clientPrice;
+    private String customerNumber;
 
     public Tire() {
         super();
@@ -20,9 +21,10 @@ public class Tire {
         this.warehouseAvailability = "";
         this.eta = "";
         this.clientPrice = "";
+        this.customerNumber = "";
     }
 
-    public Tire(String sku, String tireName, String msrp, String suggestedPrice, String localAvailability, String warehouseAvailability, String eta, String clientPrice) {
+    public Tire(String sku, String tireName, String msrp, String suggestedPrice, String localAvailability, String warehouseAvailability, String eta, String clientPrice, String customerNumber) {
         this.sku = sku;
         this.tireName = tireName;
         this.msrp = msrp;
@@ -31,6 +33,7 @@ public class Tire {
         this.warehouseAvailability = warehouseAvailability;
         this.eta = eta;
         this.clientPrice = clientPrice;
+        this.customerNumber = customerNumber;
     }
 
     @Override
@@ -44,6 +47,7 @@ public class Tire {
                 ", warehouseAvailability='" + warehouseAvailability + '\'' +
                 ", eta='" + eta + '\'' +
                 ", clientPrice='" + clientPrice + '\'' +
+                ", customerNumber='" + customerNumber + '\'' +
                 '}';
     }
 
@@ -109,5 +113,13 @@ public class Tire {
 
     public void setClientPrice(String clientPrice) {
         this.clientPrice = clientPrice;
+    }
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
     }
 }

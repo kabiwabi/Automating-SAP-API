@@ -42,12 +42,15 @@ public class TemporaryTests extends TestUtilities {
     // clicks get ETA for each product
     searchResults.clickEtaForAll();
     List<Tire> tireListInit = searchResults.initListAssignAllTires();
+    System.out.println(tireListInit.get(0).getSku());
     CustomerPricing customerPricing = searchResults.getPricingFromS4(tireListInit);
-    String materialsList = customerPricing.getD().getMaterialsList().getResults().get(0).getPrice();
-    EtaRequest etaRequest = searchResults.getETAfromS4();
+    String productPrice = customerPricing.getD().getMaterialsList().getResults().get(0).getPrice();
+    EtaRequest etaRequest = searchResults.getETAfromS4(tireListInit);
     String etaList = etaRequest.getD2().getEtaResults().get(0).getDescription();
-    System.out.println("The product price retrieved from S4 is :" + materialsList);
+    System.out.println("The product price retrieved from S4 is :" + productPrice);
     System.out.println("The expected delivery date retrieved from S4 is :" + etaList);
+
+    Assert.assertEquals(productPrice.substring(0, productPrice.length() - 1), tireListInit.get(0).getClientPrice().substring(1), "It failed!");
 
 //    ShoppingCartPage shoppingCartPage = navigationBar.ClickShoppingCart();
 //    shoppingCartPage.RemoveAllItems();

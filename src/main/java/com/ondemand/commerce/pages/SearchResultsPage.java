@@ -48,7 +48,8 @@ public class SearchResultsPage extends NavigationBar{
     private By etaLocator = By.xpath("//table[@class='item__eta_table table-striped not-visible']//td[2]");
     private By pleaseWaitLocator = By.xpath("//div[@class='loading-overlay__inner']");
     private By completeSkuLocator = By.xpath("//input[@type='hidden'][@class='productCodePost']");
-    private static By clientPriceLocator = By.xpath("//dl[@class='search-results__pdm-content search-results__pdm-prices']//dt[contains(text(), 'P')]/following-sibling::dt[contains(text(), 'D')]/preceding-sibling::dd");
+    private By clientPriceLocator = By.xpath("//dl[@class='search-results__pdm-content search-results__pdm-prices']//dt[contains(text(), 'P')]/following-sibling::dt[contains(text(), 'D')]/preceding-sibling::dd");
+    private By accountNumberLocator = By.xpath("//span[@class='nav__account-number']");
 
     private String baseURL;
     private String driverPath;
@@ -165,13 +166,13 @@ public class SearchResultsPage extends NavigationBar{
     }
 
     //assigns all tire objects all attributes based search results
-    public void assignAllTire(List<String> skuList, List<String> tireNameList, List<String> msrpList,
+    public void assignAllTire(List<String> completeSkuList, List<String> tireNameList, List<String> msrpList,
                                      List<String> suggPriceList, List<String> localAvailList,
                                      List<String> warehouseAvailList, List<String> etaList, List<String> clientPriceList, List<Tire> tireList) {
 
         int counter = 0;
         for (Tire temp : tireList) {
-            temp.setSku(skuList.get(counter));
+            temp.setSku(completeSkuList.get(counter));
             temp.setTireName(tireNameList.get(counter));
             temp.setMsrp(msrpList.get(counter));
             temp.setSuggestedPrice(suggPriceList.get(counter));
@@ -186,7 +187,7 @@ public class SearchResultsPage extends NavigationBar{
     public List<Tire> initListAssignAllTires() {
         List<Tire> tireList = new ArrayList<>();
         initializeTireList(getSkuList(), tireList);
-        assignAllTire(getSkuList(), getTireNameList(), getMSRPList(), getSuggPriceList(), getLocalList(), getWarehouseList(), getEtaList(), getClientPriceList(), tireList);
+        assignAllTire(getCompleteSkuList(), getTireNameList(), getMSRPList(), getSuggPriceList(), getLocalList(), getWarehouseList(), getEtaList(), getClientPriceList(), tireList);
         return tireList;
     }
 
@@ -256,8 +257,9 @@ public class SearchResultsPage extends NavigationBar{
         return customerPricing;
     }
 
-    public EtaRequest getETAfromS4() throws IOException {
-        String fullURL = "Customer eq '1006707' and Material eq '03476500000.CONT' and OrderQty eq '50' and RequestDate eq datetime'2022-02-18T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
+    public EtaRequest getETAfromS4(List<Tire> myList) throws IOException {
+//        String fullURL = "Customer eq '1006707' and Material eq '03476500000.CONT' and OrderQty eq '5' and RequestDate eq datetime'2022-03-15T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
+        String fullURL = buildEtaApiString(myList);
         String csrfToken = "";
         EtaService service2 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/", "kwang", "Kabin321!!!").
                 create(EtaService.class);
@@ -287,15 +289,21 @@ public class SearchResultsPage extends NavigationBar{
 
         Response<EtaRequest> etaRequestResponse = callJson.execute();
         if (etaRequestResponse.isSuccessful()) {
-            System.out.println("Retrieve ETA from S4 API is successful");
+            System.out.println("Retrieving the ETA from S4 API was successful");
         } else {
-            System.out.println("Retrieve ETA from S4 API failed! Exit abnormal!");
+            System.out.println("Retrieving the ETA from S4 API failed!");
             System.exit(1);
         }
         //Got Response body in JSON and converted to POJO object.
         EtaRequest etaRequest = etaRequestResponse.body();
         return etaRequest;
-    }
+        }
 
+        public String buildEtaApiString(List<Tire> myList){
+        String customerNumber = find(accountNumberLocator).getText();
+        customerNumber = customerNumber.substring(customerNumber.length() - 10);
+        String etaUrlString = "Customer eq '"+customerNumber+"' and Material eq '"+myList.get(0).getSku()+"' and OrderQty eq '5' and RequestDate eq datetime'2022-03-15T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
+        return etaUrlString;
+        }
     }
 
