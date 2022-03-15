@@ -36,9 +36,9 @@
                 <type>ZD</type>
             </priceListTypes>
             <materialsList>
-                <material>2554400.PIRE</material>
-                <material>2461900.PIRE</material>
-                <material>2358000.PIRE</material>
+                <material>03476500000.CONT</material>
+                <material>24387.MICH</material>
+                <material>16203.MICH</material>
             </materialsList>
         </testCase>
     </testSuite>

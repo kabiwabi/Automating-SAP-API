@@ -8,6 +8,7 @@ public class Tire {
     private String localAvailability;
     private String warehouseAvailability;
     private String eta;
+    private String clientPrice;
 
     public Tire() {
         super();
@@ -18,9 +19,10 @@ public class Tire {
         this.localAvailability = "";
         this.warehouseAvailability = "";
         this.eta = "";
+        this.clientPrice = "";
     }
 
-    public Tire(String sku, String tireName, String msrp, String suggestedPrice, String localAvailability, String warehouseAvailability, String eta) {
+    public Tire(String sku, String tireName, String msrp, String suggestedPrice, String localAvailability, String warehouseAvailability, String eta, String clientPrice) {
         this.sku = sku;
         this.tireName = tireName;
         this.msrp = msrp;
@@ -28,6 +30,7 @@ public class Tire {
         this.localAvailability = localAvailability;
         this.warehouseAvailability = warehouseAvailability;
         this.eta = eta;
+        this.clientPrice = clientPrice;
     }
 
     @Override
@@ -40,6 +43,7 @@ public class Tire {
                 ", localAvailability='" + localAvailability + '\'' +
                 ", warehouseAvailability='" + warehouseAvailability + '\'' +
                 ", eta='" + eta + '\'' +
+                ", clientPrice='" + clientPrice + '\'' +
                 '}';
     }
 
@@ -97,5 +101,13 @@ public class Tire {
 
     public void setEta(String eta) {
         this.eta = eta;
+    }
+
+    public String getClientPrice() {
+        return clientPrice;
+    }
+
+    public void setClientPrice(String clientPrice) {
+        this.clientPrice = clientPrice;
     }
 }

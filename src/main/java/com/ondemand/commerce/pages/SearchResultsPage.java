@@ -48,6 +48,7 @@ public class SearchResultsPage extends NavigationBar{
     private By etaLocator = By.xpath("//table[@class='item__eta_table table-striped not-visible']//td[2]");
     private By pleaseWaitLocator = By.xpath("//div[@class='loading-overlay__inner']");
     private By completeSkuLocator = By.xpath("//input[@type='hidden'][@class='productCodePost']");
+    private static By clientPriceLocator = By.xpath("//dl[@class='search-results__pdm-content search-results__pdm-prices']//dt[contains(text(), 'P')]/following-sibling::dt[contains(text(), 'D')]/preceding-sibling::dd");
 
     private String baseURL;
     private String driverPath;
@@ -98,7 +99,7 @@ public class SearchResultsPage extends NavigationBar{
     }
 
     //retrieves a list of web elements identified by a locator, returns the list in string form
-    public List getLocatorList(By locator) {
+    public  List getLocatorList(By locator) {
         List<WebElement> webElementList = findAll(locator);
         List<String> locatorStringList;
         locatorStringList = webElementList.stream().map(element -> element.getAttribute("innerText")).collect(Collectors.toList());
@@ -113,39 +114,44 @@ public class SearchResultsPage extends NavigationBar{
     }
 
     //getters for all the fields we store about each tire product
-    public List getSkuList() {
+    public  List getSkuList() {
         List<String> tempList = getLocatorList(skuLocator);
         return tempList;
     }
 
-    public List getTireNameList() {
+    public  List getTireNameList() {
         List<String> tempList = getLocatorList(tireNameLocator);
         return tempList;
     }
 
 
-    public List getMSRPList() {
+    public  List getMSRPList() {
         List<String> tempList = getLocatorList(msrpLocator);
         return tempList;
     }
 
-    public List getSuggPriceList() {
+    public  List getSuggPriceList() {
         List<String> tempList = getLocatorList(suggestedPriceLocator);
         return tempList;
     }
 
-    public List getLocalList() {
+    public  List getLocalList() {
         List<String> tempList = getLocatorList(localAvailLocator);
         return tempList;
     }
 
-    public List getWarehouseList() {
+    public  List getWarehouseList() {
         List<String> tempList = getLocatorList(warehouseAvailLocator);
         return tempList;
     }
 
-    public List getEtaList() {
+    public  List getEtaList() {
         List<String> tempList = getLocatorList(etaLocator);
+        return tempList;
+    }
+
+    public  List getClientPriceList() {
+        List<String> tempList = getLocatorList(clientPriceLocator);
         return tempList;
     }
 
@@ -159,9 +165,9 @@ public class SearchResultsPage extends NavigationBar{
     }
 
     //assigns all tire objects all attributes based search results
-    public void assignAllTire (List<String> skuList, List<String> tireNameList, List<String> msrpList,
-                           List<String> suggPriceList, List<String> localAvailList,
-                           List<String> warehouseAvailList, List<String> etaList, List<Tire> tireList) {
+    public void assignAllTire(List<String> skuList, List<String> tireNameList, List<String> msrpList,
+                                     List<String> suggPriceList, List<String> localAvailList,
+                                     List<String> warehouseAvailList, List<String> etaList, List<String> clientPriceList, List<Tire> tireList) {
 
         int counter = 0;
         for (Tire temp : tireList) {
@@ -172,21 +178,50 @@ public class SearchResultsPage extends NavigationBar{
             temp.setLocalAvailability(localAvailList.get(counter));
             temp.setWarehouseAvailability(warehouseAvailList.get(counter));
             temp.setEta(etaList.get(counter));
+            temp.setClientPrice(clientPriceList.get(counter));
             counter++;
         }
     }
 
-    public void printAllTires(List<Tire> tireList) {
+    public List<Tire> initListAssignAllTires() {
+        List<Tire> tireList = new ArrayList<>();
+        initializeTireList(getSkuList(), tireList);
+        assignAllTire(getSkuList(), getTireNameList(), getMSRPList(), getSuggPriceList(), getLocalList(), getWarehouseList(), getEtaList(), getClientPriceList(), tireList);
+        return tireList;
+    }
+
+    public static void printAllTires(List<Tire> tireList) {
         tireList.stream().forEach(System.out::println);
     }
 
-    public void printFromList(List<String> myList) {
+    public static void printFromList(List<String> myList) {
         myList.stream().forEach(System.out::println);
     }
 
-    public CustomerPricing getPricingFromS4()  throws IOException {
+    public RequestPricingBody initialRequestBodyJson(List<Tire> myList) {
+
+        List<RequestPriceListTypesResult> requestPriceListTypesResults = new ArrayList<RequestPriceListTypesResult>();
+        requestPriceListTypesResults.add(new RequestPriceListTypesResult("ZD"));
+        RequestPriceListTypes requestPriceListTypes = new RequestPriceListTypes();
+        requestPriceListTypes.setResults(requestPriceListTypesResults);
+
+        List<RequestMaterialsListResult> requestMaterialsListResults = new ArrayList<RequestMaterialsListResult>();
+        requestMaterialsListResults.add(new RequestMaterialsListResult(myList.get(0).getSku()));
+        RequestMaterialsList requestMaterialsList = new RequestMaterialsList();
+        requestMaterialsList.setResults(requestMaterialsListResults);
+
+        RequestPricingBody requestPricingBody = new RequestPricingBody();
+        requestPricingBody.setCustomerNumber("0001006563");
+        requestPricingBody.setMaterialsList(requestMaterialsList);
+        requestPricingBody.setPriceListTypes(requestPriceListTypes);
+        requestPricingBody.setNoEmptyLiquidationPrice(false);
+        requestPricingBody.setSortByQty(true);
+        return requestPricingBody;
+    }
+
+    public CustomerPricing getPricingFromS4(List<Tire> myList) throws IOException {
         String csrfToken = "";
-        PricingService service = Client.getRetrofitInstance("http://tch-s4hds1.grtouchette.com:8000/","kwang","Kabin321!!!")
+        PricingService service = Client.getRetrofitInstance("http://tch-s4hds1.grtouchette.com:8000/", "kwang", "Kabin321!!!")
                 .create(PricingService.class);
         Call<ResponseBody> call = service.getPricingCSRFToken();
 
@@ -200,14 +235,14 @@ public class SearchResultsPage extends NavigationBar{
             }
         }
         //check x-csrf-token is empty or not
-        if(csrfToken.isEmpty()) {
+        if (csrfToken.isEmpty()) {
             System.out.println("Didn't receive a x-csrf-token! Exit abnormal!");
             System.exit(1);
         }
         //get response' cookie set
         List<String> cookieList = response.headers().values("set-cookie");
 
-        RequestPricingBody requestPricingBody = initialRequestBodyJson();
+        RequestPricingBody requestPricingBody = initialRequestBodyJson(myList);
         Call<CustomerPricing> callJson = service.postPricingSearchGson(requestPricingBody, csrfToken, cookieList);
         Response<CustomerPricing> customerPricingResponse = callJson.execute();
         if (customerPricingResponse.isSuccessful()) {
@@ -221,10 +256,10 @@ public class SearchResultsPage extends NavigationBar{
         return customerPricing;
     }
 
-    public EtaRequest getETAfromS4()  throws IOException {
+    public EtaRequest getETAfromS4() throws IOException {
         String fullURL = "Customer eq '1006707' and Material eq '03476500000.CONT' and OrderQty eq '50' and RequestDate eq datetime'2022-02-18T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
         String csrfToken = "";
-        EtaService service2 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/","kwang","Kabin321!!!").
+        EtaService service2 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/", "kwang", "Kabin321!!!").
                 create(EtaService.class);
         Call<ResponseBody> call = service2.getEtaCSRFToken();
 
@@ -238,14 +273,14 @@ public class SearchResultsPage extends NavigationBar{
             }
         }
         //check x-csrf-token is empty or not
-        if(csrfToken.isEmpty()) {
+        if (csrfToken.isEmpty()) {
             System.out.println("Didn't receive a x-csrf-token! Exit abnormal!");
             System.exit(1);
         }
         //get response' cookie set
         List<String> cookieList = response.headers().values("set-cookie");
 
-        EtaService service3 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/","kwang","Kabin321!!!").
+        EtaService service3 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/", "kwang", "Kabin321!!!").
                 create(EtaService.class);
 
         Call<EtaRequest> callJson = service3.getEtaGson(fullURL, csrfToken, cookieList);
@@ -262,141 +297,5 @@ public class SearchResultsPage extends NavigationBar{
         return etaRequest;
     }
 
-    private RequestPricingBody initialRequestBodyJson() {
-        readConfigurationXML();
-        List<RequestPriceListTypesResult> requestPriceListTypesResults = new ArrayList<RequestPriceListTypesResult>();
-        xmlPriceListTypes.forEach( (n) -> {
-            requestPriceListTypesResults.add(new RequestPriceListTypesResult(n));
-        });
-        RequestPriceListTypes requestPriceListTypes= new RequestPriceListTypes();
-        requestPriceListTypes.setResults(requestPriceListTypesResults);
-        List<RequestMaterialsListResult> requestMaterialsListResults = new ArrayList<RequestMaterialsListResult>();
-        Consumer<String> method = (n) -> { requestMaterialsListResults.add(new RequestMaterialsListResult(n)); };
-        xmlMaterialsList.forEach(method);
-        RequestMaterialsList requestMaterialsList= new RequestMaterialsList();
-        requestMaterialsList.setResults(requestMaterialsListResults);
-        RequestPricingBody requestPricingBody = new RequestPricingBody();
-        requestPricingBody.setCustomerNumber(customerNumber);
-        requestPricingBody.setMaterialsList(requestMaterialsList);
-        requestPricingBody.setPriceListTypes(requestPriceListTypes);
-        requestPricingBody.setNoEmptyLiquidationPrice(false);
-        requestPricingBody.setSortByQty(true);
-        return requestPricingBody;
     }
 
-    private void readConfigurationXML() {
-        SAXReader reader = new SAXReader();
-        Document document = null;
-        //begin for developing and debug. For runnable jar file version, please comment it.
-        FILENAME = "C:\\Users\\kwang\\Documents\\TouchetteAutomation\\configurationWindows.xml.tld";
-        //end of for developing and debug.
-        try {
-            document = reader.read(new File(FILENAME));
-        } catch (DocumentException e) {
-            System.out.println("Can't open " + FILENAME +" ! Please check there is the file in current folder.");
-            System.out.println(e);
-            System.exit(1);
-        }
-        // Get baseURL
-        Node node = document.selectSingleNode("//baseURL"); //using XPath to get xml node
-        if (node == null) { // doesn't find baseURL in the xml file
-            System.out.println("Can't find xml node: <baseURL></baseURL> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            baseURL = node.getStringValue();
-        }
-        // Get webdriverHeadless
-        node = document.selectSingleNode("//webdriverHeadless");
-        if (node == null) {
-            System.out.println("Can't find xml node: <webdriverHeadless></webdriverHeadless> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            webdriverHeadless = node.getStringValue();
-        }
-        // Get Chrome driver path
-        node = document.selectSingleNode("//chromeDriver");
-        if (node == null) {
-            System.out.println("Can't find xml node: <chromeDriver></chromeDriver> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            driverPath = node.getStringValue();
-        }
-        // Get S4 baseURL
-        node = document.selectSingleNode("//s4BaseURL");
-        if (node == null) {
-            System.out.println("Can't find xml node: <s4BaseURL></s4BaseURL> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            s4BaseURL = node.getStringValue();
-        }
-        // Get S4 Authorization's User Name
-        node = document.selectSingleNode("//s4AuthorizationName");
-        if (node == null) {
-            System.out.println("Can't find xml node: <s4AuthorizationName></s4AuthorizationName> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            s4AuthorizationName = node.getStringValue();
-        }
-        // Get S4 Authorization's User Password
-        node = document.selectSingleNode("//s4AuthorizationPassword");
-        if (node == null) {
-            System.out.println("Can't find xml node: <s4AuthorizationPassword></s4AuthorizationPassword> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            s4AuthorizationPassword = node.getStringValue();
-        }
-        // Get Test data
-        node = document.selectSingleNode("//testCase[@id=\"case004\"]/asmUserName");
-        if (node == null) {
-            System.out.println("Can't find xml node: <testCase id=\"case004\"><asmUserName></asmUserName></testCase> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            asmUserName = node.getStringValue();
-        }
-        node = document.selectSingleNode("//testCase[@id=\"case004\"]/password");
-        if (node == null) {
-            System.out.println("Can't find xml node: <testCase id=\"case004\"><password></password></testCase> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            password = node.getStringValue();
-        }
-        node = document.selectSingleNode("//testCase[@id=\"case004\"]/customerNumber");
-        if (node == null) {
-            System.out.println("Can't find xml node: <testCase id=\"case004\"><customerNumber></customerNumber></testCase> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            customerNumber = node.getStringValue();
-        }
-        node = document.selectSingleNode("//testCase[@id=\"case004\"]/customerName");
-        if (node == null) {
-            System.out.println("Can't find xml node: <testCase id=\"case004\"><customerName></customerName></testCase> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            customerName = node.getStringValue();
-        }
-        // Get Test data for S4 Restful Pricing API request body: priceListTypes
-        List<Node> listNodes = document.selectNodes("//testCase[@id=\"case004\"]/priceListTypes/type");
-        if (listNodes == null) {
-            System.out.println("Can't find xml node: <testCase id=\"case004\"><priceListTypes><type></type></priceListTypes></testCase> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            for (Iterator<Node> iter = listNodes.iterator(); iter.hasNext();) {
-                node = iter.next();
-                String typeInS4API = node.getStringValue();
-                xmlPriceListTypes.add(typeInS4API);
-            }
-        }
-        // Get Test data for S4 Restful Pricing API request body: materialsList
-        listNodes = document.selectNodes("//testCase[@id=\"case004\"]/materialsList/material");
-        if (listNodes == null) {
-            System.out.println("Can't find xml node: <testCase id=\"case004\"><materialsList><material></material></materialsList></testCase> in configuartion xml! ");
-            System.exit(1);
-        } else {
-            for (Iterator<Node> iter = listNodes.iterator(); iter.hasNext();) {
-                node = iter.next();
-                String materialInS4API = node.getStringValue();
-                xmlMaterialsList.add(materialInS4API);
-            }
-        }
-    }
-}

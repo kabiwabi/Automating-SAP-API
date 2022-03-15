@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 
 public class WelcomePage extends BasePageObject {
 
-	private String pageUrl = "https://accstorefront.cb46rr50dx-groupetou1-s1-nat.model-t.cc.commerce.ondemand.com/touchettestorefront/touchette/en/";
+	private String pageUrl = "https://accstorefront.cb46rr50dx-groupetou1-d1-nat.model-t.cc.commerce.ondemand.com/touchettestorefront/touchette/en/";
 
 	private By formAuthenticationLinkLocator = By.linkText("Form Authentication");
 	private By englishLanguageButton = By.xpath("//button[@data-lang='en']");
