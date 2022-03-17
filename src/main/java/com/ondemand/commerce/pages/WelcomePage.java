@@ -9,7 +9,8 @@ public class WelcomePage extends BasePageObject {
 	private String pageUrl = "https://accstorefront.cb46rr50dx-groupetou1-d1-nat.model-t.cc.commerce.ondemand.com/touchettestorefront/touchette/en/";
 
 	private By formAuthenticationLinkLocator = By.linkText("Form Authentication");
-	private By englishLanguageButton = By.xpath("//button[@data-lang='en']");
+	private By englishLanguageButtonLocator = By.xpath("//button[@data-lang='en']");
+	private By frenchLanguageButton = By.xpath("//button[@data-lang='fr']");
 	private By checkboxesLinkLocator = By.linkText("Checkboxes");
 	private By dropdownLinkLocator = By.linkText("Dropdown");
 	private By javaScriptAlertsLinkLocator = By.linkText("JavaScript Alerts");
@@ -29,7 +30,7 @@ public class WelcomePage extends BasePageObject {
 
 	public LoginPage clickLanguageEnglish() {
 		log.info("Confirming login page");
-		click(englishLanguageButton);
+		click(englishLanguageButtonLocator);
 		return new LoginPage(driver, log);
 	}
 

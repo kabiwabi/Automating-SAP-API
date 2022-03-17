@@ -199,7 +199,7 @@ public class SearchResultsPage extends NavigationBar{
         myList.stream().forEach(System.out::println);
     }
 
-    public RequestPricingBody initialRequestBodyJson(List<Tire> myList) {
+    public RequestPricingBody initialRequestBodyJson(Tire tireProduct) {
 
         List<RequestPriceListTypesResult> requestPriceListTypesResults = new ArrayList<RequestPriceListTypesResult>();
         requestPriceListTypesResults.add(new RequestPriceListTypesResult("ZD"));
@@ -207,7 +207,7 @@ public class SearchResultsPage extends NavigationBar{
         requestPriceListTypes.setResults(requestPriceListTypesResults);
 
         List<RequestMaterialsListResult> requestMaterialsListResults = new ArrayList<RequestMaterialsListResult>();
-        requestMaterialsListResults.add(new RequestMaterialsListResult(myList.get(0).getSku()));
+        requestMaterialsListResults.add(new RequestMaterialsListResult(tireProduct.getSku()));
         RequestMaterialsList requestMaterialsList = new RequestMaterialsList();
         requestMaterialsList.setResults(requestMaterialsListResults);
 
@@ -220,7 +220,7 @@ public class SearchResultsPage extends NavigationBar{
         return requestPricingBody;
     }
 
-    public CustomerPricing getPricingFromS4(List<Tire> myList) throws IOException {
+    public CustomerPricing getPricingFromS4(Tire tireProduct) throws IOException {
         String csrfToken = "";
         PricingService service = Client.getRetrofitInstance("http://tch-s4hds1.grtouchette.com:8000/", "kwang", "Kabin321!!!")
                 .create(PricingService.class);
@@ -243,7 +243,7 @@ public class SearchResultsPage extends NavigationBar{
         //get response' cookie set
         List<String> cookieList = response.headers().values("set-cookie");
 
-        RequestPricingBody requestPricingBody = initialRequestBodyJson(myList);
+        RequestPricingBody requestPricingBody = initialRequestBodyJson(tireProduct);
         Call<CustomerPricing> callJson = service.postPricingSearchGson(requestPricingBody, csrfToken, cookieList);
         Response<CustomerPricing> customerPricingResponse = callJson.execute();
         if (customerPricingResponse.isSuccessful()) {
@@ -257,9 +257,9 @@ public class SearchResultsPage extends NavigationBar{
         return customerPricing;
     }
 
-    public EtaRequest getETAfromS4(List<Tire> myList) throws IOException {
+    public EtaRequest getETAfromS4(Tire tireProduct) throws IOException {
 //        String fullURL = "Customer eq '1006707' and Material eq '03476500000.CONT' and OrderQty eq '5' and RequestDate eq datetime'2022-03-15T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
-        String fullURL = buildEtaApiString(myList);
+        String fullURL = buildEtaApiString(tireProduct);
         String csrfToken = "";
         EtaService service2 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/", "kwang", "Kabin321!!!").
                 create(EtaService.class);
@@ -299,10 +299,10 @@ public class SearchResultsPage extends NavigationBar{
         return etaRequest;
         }
 
-        public String buildEtaApiString(List<Tire> myList){
+        public String buildEtaApiString(Tire tireProduct){
         String customerNumber = find(accountNumberLocator).getText();
         customerNumber = customerNumber.substring(customerNumber.length() - 10);
-        String etaUrlString = "Customer eq '"+customerNumber+"' and Material eq '"+myList.get(0).getSku()+"' and OrderQty eq '5' and RequestDate eq datetime'2022-03-15T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
+        String etaUrlString = "Customer eq '"+customerNumber+"' and Material eq '"+tireProduct.getSku()+"' and OrderQty eq '5' and RequestDate eq datetime'2022-03-15T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
         return etaUrlString;
         }
     }

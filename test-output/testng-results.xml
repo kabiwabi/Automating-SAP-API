@@ -2,12 +2,12 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2022-03-15T09:49:02 EDT" name="Default Suite" finished-at="2022-03-15T09:49:47 EDT" duration-ms="45194">
+  <suite started-at="2022-03-15T14:35:26 EDT" name="Default Suite" finished-at="2022-03-15T14:36:26 EDT" duration-ms="59231">
     <groups>
     </groups>
-    <test started-at="2022-03-15T09:49:02 EDT" name="TouchetteAutomation" finished-at="2022-03-15T09:49:47 EDT" duration-ms="45194">
+    <test started-at="2022-03-15T14:35:26 EDT" name="TouchetteAutomation" finished-at="2022-03-15T14:36:26 EDT" duration-ms="59231">
       <class name="com.ondemand.commerce.temporarytests.TemporaryTests">
-        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.temporarytests.TemporaryTests@4fb61f4a]" started-at="2022-03-15T09:49:02 EDT" name="setUp" finished-at="2022-03-15T09:49:08 EDT" duration-ms="5516" status="PASS">
+        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.temporarytests.TemporaryTests@294425a7]" started-at="2022-03-15T14:35:27 EDT" name="setUp" finished-at="2022-03-15T14:35:32 EDT" duration-ms="5129" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -27,18 +27,18 @@
             </param>
             <param index="4">
               <value>
-                <![CDATA[org.testng.TestRunner@bff764c]]>
+                <![CDATA[org.testng.TestRunner@4ea43d4d]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="temporaryTest()[pri:0, instance:com.ondemand.commerce.temporarytests.TemporaryTests@4fb61f4a]" started-at="2022-03-15T09:49:08 EDT" name="temporaryTest" finished-at="2022-03-15T09:49:47 EDT" duration-ms="38752" status="PASS">
+        <test-method signature="temporaryTest()[pri:0, instance:com.ondemand.commerce.temporarytests.TemporaryTests@294425a7]" started-at="2022-03-15T14:35:32 EDT" name="temporaryTest" finished-at="2022-03-15T14:36:25 EDT" duration-ms="53213" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- temporaryTest -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.temporarytests.TemporaryTests@4fb61f4a]" started-at="2022-03-15T09:49:47 EDT" name="tearDown" finished-at="2022-03-15T09:49:47 EDT" duration-ms="317" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.temporarytests.TemporaryTests@294425a7]" started-at="2022-03-15T14:36:25 EDT" name="tearDown" finished-at="2022-03-15T14:36:26 EDT" duration-ms="337" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->

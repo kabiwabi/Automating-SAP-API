@@ -9,7 +9,6 @@ import retrofit.pricingModels.CustomerPricing;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import retrofit.service.ApiMethods;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,13 +23,11 @@ public class TemporaryTests extends TestUtilities {
     // open main page
     WelcomePage welcomePage = new WelcomePage(driver, log);
     welcomePage.openPage();
-    takeScreenshot("WelcomePage opened");
+    log.info("Welcome page clicked succesfully!");
     // Click on Form Authentication link
     LoginPage loginPage = welcomePage.clickLanguageEnglish();
-    takeScreenshot("LoginPage opened");
     // execute log in
     HomePage homePage = loginPage.logIn("jdoe@testgt.ca", "1234");
-    takeScreenshot("HomePage opened");
     // create a navigation bar instance and click search by specifications
     NavigationBar navigationBar = new NavigationBar(driver,log);
     FindTiresBySpecificationPage bySpecificationPage = navigationBar.ClickFindTiresBySpecification();
@@ -41,18 +38,18 @@ public class TemporaryTests extends TestUtilities {
     searchResults.addToCart("5");
     // clicks get ETA for each product
     searchResults.clickEtaForAll();
-    List<Tire> tireListInit = searchResults.initListAssignAllTires();
-    System.out.println(tireListInit.get(0).getSku());
-    CustomerPricing customerPricing = searchResults.getPricingFromS4(tireListInit);
-    String productPrice = customerPricing.getD().getMaterialsList().getResults().get(0).getPrice();
-    EtaRequest etaRequest = searchResults.getETAfromS4(tireListInit);
-    String etaList = etaRequest.getD2().getEtaResults().get(0).getDescription();
-    System.out.println("The product price retrieved from S4 is :" + productPrice);
-    System.out.println("The expected delivery date retrieved from S4 is :" + etaList);
+    List<Tire> tireListFull = searchResults.initListAssignAllTires();
 
-    Assert.assertEquals(productPrice.substring(0, productPrice.length() - 1), tireListInit.get(0).getClientPrice().substring(1), "It failed!");
-
-//    ShoppingCartPage shoppingCartPage = navigationBar.ClickShoppingCart();
-//    shoppingCartPage.RemoveAllItems();
+    for(int i=0; i<tireListFull.size(); i++) {
+        Tire tireProductIterate = tireListFull.get(i);
+        CustomerPricing customerPricing = searchResults.getPricingFromS4(tireProductIterate);
+        String productPrice = customerPricing.getD().getMaterialsList().getResults().get(0).getPrice();
+        EtaRequest etaRequest = searchResults.getETAfromS4(tireProductIterate);
+        String productEta = etaRequest.getD2().getEtaResults().get(0).getDescription();
+        Assert.assertEquals(productPrice.substring(0, productPrice.length() - 1), tireProductIterate.getClientPrice().substring(1), "Price assertion failed!");
+        log.info("Successfully asserted that product "+i+"'s hybris price matches the S4 price ");
+        Assert.assertNotEquals(tireProductIterate.getEta(), productEta, "ETA assertion failed!");
+        log.info("Successfully asserted that product "+i+"'s hybris ETA matches the S4 ETA ");
+        }
     }
 }
