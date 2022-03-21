@@ -1,4 +1,4 @@
-package com.ondemand.commerce.temporarytests;
+package com.ondemand.commerce.AllTests;
 
 import com.ondemand.commerce.base.TestUtilities;
 import com.ondemand.commerce.pages.*;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TemporaryTests extends TestUtilities {
+public class PriceEtaApiTest extends TestUtilities {
     private ArrayList<WebElement> msrpList = new ArrayList<>();
     private CustomerPricing customerPricing;
 

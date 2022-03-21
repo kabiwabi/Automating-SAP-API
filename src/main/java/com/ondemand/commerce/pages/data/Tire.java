@@ -10,6 +10,7 @@ public class Tire {
     private String eta;
     private String clientPrice;
     private String customerNumber;
+    private String seasonTag;
 
     public Tire() {
         super();
@@ -22,9 +23,11 @@ public class Tire {
         this.eta = "";
         this.clientPrice = "";
         this.customerNumber = "";
+        this.seasonTag = "";
     }
 
-    public Tire(String sku, String tireName, String msrp, String suggestedPrice, String localAvailability, String warehouseAvailability, String eta, String clientPrice, String customerNumber) {
+    public Tire(String sku, String tireName, String msrp, String suggestedPrice, String localAvailability,
+                String warehouseAvailability, String eta, String clientPrice, String customerNumber, String seasonTag) {
         this.sku = sku;
         this.tireName = tireName;
         this.msrp = msrp;
@@ -34,6 +37,7 @@ public class Tire {
         this.eta = eta;
         this.clientPrice = clientPrice;
         this.customerNumber = customerNumber;
+        this.seasonTag = seasonTag;
     }
 
     @Override
@@ -48,6 +52,7 @@ public class Tire {
                 ", eta='" + eta + '\'' +
                 ", clientPrice='" + clientPrice + '\'' +
                 ", customerNumber='" + customerNumber + '\'' +
+                ", seasonTag='" + seasonTag + '\'' +
                 '}';
     }
 
@@ -95,9 +100,7 @@ public class Tire {
         return warehouseAvailability;
     }
 
-    public void setWarehouseAvailability(String warehouseAvailability) {
-        this.warehouseAvailability = warehouseAvailability;
-    }
+    public void setWarehouseAvailability(String warehouseAvailability) {this.warehouseAvailability = warehouseAvailability;}
 
     public String getEta() {
         return eta;
@@ -122,4 +125,14 @@ public class Tire {
     public void setCustomerNumber(String customerNumber) {
         this.customerNumber = customerNumber;
     }
+
+    public String getSeasonTag() {
+        return seasonTag;
+    }
+
+    public void setSeasonTag(String seasonTag) {
+        this.seasonTag = seasonTag;
+    }
+
+
 }

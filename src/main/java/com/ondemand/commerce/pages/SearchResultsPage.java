@@ -9,22 +9,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import retrofit.etaModels.*;
 import retrofit.pricingModels.*;
-import retrofit.pricingModels.*;
 import retrofit.service.Client;
 import retrofit.service.EtaService;
 import retrofit.service.PricingService;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Node;
-import org.dom4j.io.SAXReader;
-
 import java.io.IOException;
-import java.io.File;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class SearchResultsPage extends NavigationBar{
@@ -50,6 +42,10 @@ public class SearchResultsPage extends NavigationBar{
     private By completeSkuLocator = By.xpath("//input[@type='hidden'][@class='productCodePost']");
     private By clientPriceLocator = By.xpath("//dl[@class='search-results__pdm-content search-results__pdm-prices']//dt[contains(text(), 'P')]/following-sibling::dt[contains(text(), 'D')]/preceding-sibling::dd");
     private By accountNumberLocator = By.xpath("//span[@class='nav__account-number']");
+    private By seasonTagLocator = By.xpath("//span[@class='c-season__label']");
+    private By allSeasonCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[1]/form[1]/label[1]/span[1]/span[1]");
+    private By allWeatherCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[2]/form[1]/label[1]/span[1]/span[1]");
+    private By summerCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[3]/form[1]/label[1]/span[1]/span[1]");
 
     private String baseURL;
     private String driverPath;
@@ -89,6 +85,21 @@ public class SearchResultsPage extends NavigationBar{
         scrollToTop();
         List<WebElement> listGetEta = findAll(getEtaLocator);
         listGetEta.stream().forEach(element -> clickAndWait(element, pleaseWaitLocator));
+    }
+
+    public void clickAllSeason() {
+        log.info("Clicking the all-season checkbox");
+        click(allSeasonCheckboxLocator);
+    }
+
+    public void clickAllWeather() {
+        log.info("Clicking the all-weather checkbox");
+        click(allWeatherCheckboxLocator);
+    }
+
+    public void clickSummer() {
+        log.info("Clicking the summer checkbox");
+        click(summerCheckboxLocator);
     }
 
     //clicks "add to cart" for each item displayed on the search results page
@@ -153,6 +164,14 @@ public class SearchResultsPage extends NavigationBar{
 
     public  List getClientPriceList() {
         List<String> tempList = getLocatorList(clientPriceLocator);
+        for (int i=0; i<tempList.size(); i++) {
+            tempList.set(i,parseCustomerPrice(tempList.get(i)));
+        }
+        return tempList;
+    }
+
+    public  List getSeasonList() {
+        List<String> tempList = getLocatorList(seasonTagLocator);
         return tempList;
     }
 
@@ -163,12 +182,13 @@ public class SearchResultsPage extends NavigationBar{
         for (int i=0; i<listSize; i++) {
             tireList.add(new Tire());
         }
+
     }
 
     //assigns all tire objects all attributes based search results
     public void assignAllTire(List<String> completeSkuList, List<String> tireNameList, List<String> msrpList,
-                                     List<String> suggPriceList, List<String> localAvailList,
-                                     List<String> warehouseAvailList, List<String> etaList, List<String> clientPriceList, List<Tire> tireList) {
+                              List<String> suggPriceList, List<String> localAvailList,
+                              List<String> warehouseAvailList, List<String> etaList, List<String> clientPriceList, List<String> seasonList, List<Tire> tireList) {
 
         int counter = 0;
         for (Tire temp : tireList) {
@@ -176,10 +196,32 @@ public class SearchResultsPage extends NavigationBar{
             temp.setTireName(tireNameList.get(counter));
             temp.setMsrp(msrpList.get(counter));
             temp.setSuggestedPrice(suggPriceList.get(counter));
-            temp.setLocalAvailability(localAvailList.get(counter));
-            temp.setWarehouseAvailability(warehouseAvailList.get(counter));
+
+            if (warehouseAvailList.size() < completeSkuList.size()) {
+                if (counter>=warehouseAvailList.size()) {
+                    temp.setWarehouseAvailability("Not available");
+                }
+                else{
+                temp.setWarehouseAvailability(localAvailList.get(counter));}
+            }
+            else {
+                temp.setWarehouseAvailability(localAvailList.get(counter));
+            }
+
+            if (localAvailList.size() < completeSkuList.size()) {
+                if (counter>=localAvailList.size()) {
+                    temp.setLocalAvailability("Not available");
+                }
+                else{
+                    temp.setLocalAvailability(localAvailList.get(counter));}
+            }
+            else {
+                temp.setLocalAvailability(localAvailList.get(counter));
+            }
+
             temp.setEta(etaList.get(counter));
             temp.setClientPrice(clientPriceList.get(counter));
+            temp.setSeasonTag((seasonList.get(counter)));
             counter++;
         }
     }
@@ -187,15 +229,15 @@ public class SearchResultsPage extends NavigationBar{
     public List<Tire> initListAssignAllTires() {
         List<Tire> tireList = new ArrayList<>();
         initializeTireList(getSkuList(), tireList);
-        assignAllTire(getCompleteSkuList(), getTireNameList(), getMSRPList(), getSuggPriceList(), getLocalList(), getWarehouseList(), getEtaList(), getClientPriceList(), tireList);
+        assignAllTire(getCompleteSkuList(), getTireNameList(), getMSRPList(), getSuggPriceList(), getLocalList(), getWarehouseList(), getEtaList(), getClientPriceList(), getSeasonList(), tireList);
         return tireList;
     }
 
-    public static void printAllTires(List<Tire> tireList) {
+    public void printAllTires(List<Tire> tireList) {
         tireList.stream().forEach(System.out::println);
     }
 
-    public static void printFromList(List<String> myList) {
+    public void printFromList(List<String> myList) {
         myList.stream().forEach(System.out::println);
     }
 
@@ -215,6 +257,7 @@ public class SearchResultsPage extends NavigationBar{
         requestPricingBody.setCustomerNumber("0001006563");
         requestPricingBody.setMaterialsList(requestMaterialsList);
         requestPricingBody.setPriceListTypes(requestPriceListTypes);
+
         requestPricingBody.setNoEmptyLiquidationPrice(false);
         requestPricingBody.setSortByQty(true);
         return requestPricingBody;
@@ -304,6 +347,22 @@ public class SearchResultsPage extends NavigationBar{
         customerNumber = customerNumber.substring(customerNumber.length() - 10);
         String etaUrlString = "Customer eq '"+customerNumber+"' and Material eq '"+tireProduct.getSku()+"' and OrderQty eq '5' and RequestDate eq datetime'2022-03-15T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
         return etaUrlString;
+        }
+
+        public String parseCustomerPrice(String customerPrice) {
+            String returnedString = "";
+            int myIndex = 0;
+            for (int i = 0; i < customerPrice.length(); i++) {
+                if (customerPrice.charAt(i) != '$') {
+
+                } else if (customerPrice.charAt(i) == '$') {
+                    myIndex = i;
+                }
+            }
+            for (int i = myIndex; i < customerPrice.length(); i++) {
+                returnedString += customerPrice.charAt(i);
+            }
+            return returnedString;
         }
     }
 
