@@ -3,6 +3,7 @@ package com.ondemand.commerce.AllTests.seasonTests;
 import com.ondemand.commerce.base.TestUtilities;
 import com.ondemand.commerce.pages.*;
 import com.ondemand.commerce.pages.data.Tire;
+import org.testng.annotations.Parameters;
 import retrofit.etaModels.EtaRequest;
 import retrofit.pricingModels.CustomerPricing;
 
@@ -23,19 +24,20 @@ public class SummerTest extends TestUtilities {
     private String allWeather = "All-Weather";
 
     @Test
-    public void summerTest() throws IOException {
+    @Parameters({"hybrisUsername", "hybrisPassword", "inputTireSize"})
+    public void summerTest(String hybrisUsername, String hybrisPassword, String inputTireSize) throws IOException {
         // open main page
-        WelcomePage welcomePage = new WelcomePage(driver, log);
+        LanguageSelectionPage welcomePage = new LanguageSelectionPage(driver, log);
         welcomePage.openPage();
-        log.info("Welcome page clicked succesfully!");
+        log.info("Welcome page clicked successfully!");
         // Click on Form Authentication link
         LoginPage loginPage = welcomePage.clickLanguageEnglish();
         // execute log in
-        HomePage homePage = loginPage.logIn("jdoe@testgt.ca", "1234");
+        HomePage homePage = loginPage.logIn(hybrisUsername, hybrisPassword);
         // create a navigation bar instance and click search by specifications
         NavigationBar navigationBar = new NavigationBar(driver,log);
         FindTiresBySpecificationPage bySpecificationPage = navigationBar.ClickFindTiresBySpecification();
-        bySpecificationPage.FillTireSize("225");
+        bySpecificationPage.FillTireSize(inputTireSize);
         SearchResultsPage searchResults = bySpecificationPage.clickSearch();
 
         searchResults.clickSummer();

@@ -11,6 +11,7 @@ public class Tire {
     private String clientPrice;
     private String customerNumber;
     private String seasonTag;
+    private String runFlatTag;
 
     public Tire() {
         super();
@@ -24,10 +25,11 @@ public class Tire {
         this.clientPrice = "";
         this.customerNumber = "";
         this.seasonTag = "";
+        this.runFlatTag = "";
     }
 
     public Tire(String sku, String tireName, String msrp, String suggestedPrice, String localAvailability,
-                String warehouseAvailability, String eta, String clientPrice, String customerNumber, String seasonTag) {
+                String warehouseAvailability, String eta, String clientPrice, String customerNumber, String seasonTag, String runFlatTag) {
         this.sku = sku;
         this.tireName = tireName;
         this.msrp = msrp;
@@ -38,6 +40,7 @@ public class Tire {
         this.clientPrice = clientPrice;
         this.customerNumber = customerNumber;
         this.seasonTag = seasonTag;
+        this.runFlatTag = runFlatTag;
     }
 
     @Override
@@ -53,6 +56,7 @@ public class Tire {
                 ", clientPrice='" + clientPrice + '\'' +
                 ", customerNumber='" + customerNumber + '\'' +
                 ", seasonTag='" + seasonTag + '\'' +
+                ", runFlatTag='" + runFlatTag + '\'' +
                 '}';
     }
 
@@ -132,6 +136,14 @@ public class Tire {
 
     public void setSeasonTag(String seasonTag) {
         this.seasonTag = seasonTag;
+    }
+
+    public String getRunFlatTag() {
+        return runFlatTag;
+    }
+
+    public void setRunFlatTag(String runFlatTag) {
+        this.runFlatTag = runFlatTag;
     }
 
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Full API, Front-End Test Suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="All-Season Tag Test(failed)">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest">
+        <methods>
+          <include name="setUp"/>
+          <include name="allSeasonTest"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest -->
+    </classes>
+  </test> <!-- All-Season Tag Test(failed) -->
+  <test thread-count="5" name="All-Weather Tag Test(failed)">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest">
+        <methods>
+          <include name="setUp"/>
+          <include name="allWeatherTest"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest -->
+    </classes>
+  </test> <!-- All-Weather Tag Test(failed) -->
+</suite> <!-- Failed suite [Full API, Front-End Test Suite] -->

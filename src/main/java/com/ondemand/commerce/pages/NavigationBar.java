@@ -1,5 +1,6 @@
 package com.ondemand.commerce.pages;
 
+import com.ondemand.commerce.base.TestUtilities;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -40,7 +41,7 @@ public class NavigationBar extends BasePageObject{
 
     //clicks the "search button" and clicks the "find tires by specification" button
     public FindTiresBySpecificationPage ClickFindTiresBySpecification() {
-        log.info("Clicking the search button");
+        log.info("Clicking the product search button");
         click(productSearchButtonLocator);
         log.info("Clicking the find tires by specification button");
         click(findTiresBySpecificationsLocator);
