@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Full API and Front-End UI Test Suite]" guice-stage="DEVELOPMENT">
+  <parameter name="hybrisUsername" value="jdoe@testgt.ca"/>
+  <parameter name="hybrisPassword" value="1234"/>
+  <parameter name="inputTireSize" value="225"/>
+  <test thread-count="5" name="All-Weather Tag Test(failed)">
+    <parameter name="browser" value="chromeheadless"/>
+    <classes>
+      <class name="com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest">
+        <methods>
+          <include name="setUp"/>
+          <include name="tearDown"/>
+          <include name="allWeatherTest" invocation-numbers="0"/>
+        </methods>
+      </class> <!-- com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest -->
+    </classes>
+  </test> <!-- All-Weather Tag Test(failed) -->
+</suite> <!-- Failed suite [Full API and Front-End UI Test Suite] -->
