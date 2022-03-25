@@ -3,13 +3,13 @@
 <suite name="Failed suite [Default Suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="TouchetteAutomation(failed)">
     <classes>
-      <class name="com.ondemand.commerce.AllTests.PriceEtaApiTest">
+      <class name="com.ondemand.commerce.AllTests.apiTests.PriceEtaApiTest">
         <methods>
           <include name="setUp"/>
           <include name="temporaryTest"/>
           <include name="tearDown"/>
         </methods>
-      </class> <!-- com.ondemand.commerce.AllTests.PriceEtaApiTest -->
+      </class> <!-- com.ondemand.commerce.AllTests.apiTests.PriceEtaApiTest -->
     </classes>
   </test> <!-- TouchetteAutomation(failed) -->
 </suite> <!-- Failed suite [Default Suite] -->

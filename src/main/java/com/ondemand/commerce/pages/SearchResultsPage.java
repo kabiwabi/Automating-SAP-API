@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class SearchResultsPage extends NavigationBar{
 
-    //locators for buttons
+    //locators for standard buttons
     private By addToCartLocator = By.xpath("//button[@class='quantity-input__btn quantity-input__btn--up'][normalize-space()='+']");
     private By getEtaLocator = By.xpath("//button[@class='btn btn-primary btn-small viewETA viewETA--search']");
     private By addToOrderLocator = By.xpath("//button[@class='addToCartButton btn btn-primary btn-lg']");
@@ -29,6 +29,7 @@ public class SearchResultsPage extends NavigationBar{
 
     //locator for the popup that occurs when you press "GET ETA"
     private By notificationMessageLocator = By.xpath("//p[@class='c-cart-notification__message']");
+    private By pleaseWaitLocator = By.xpath("//div[@class='loading-overlay__inner']");
 
     //locators for all fields we store about the tire products
     private By msrpLocator = By.xpath("//*[@class='search-results__price-item search-results__price-item--msrp']");
@@ -38,14 +39,18 @@ public class SearchResultsPage extends NavigationBar{
     private By localAvailLocator = By.xpath("//div[@class='search-results__on-hand-item search-results__on-hand-item--local_count']//p");
     private By warehouseAvailLocator = By.xpath("//div[@class='search-results__on-hand-item search-results__on-hand-item--warehouse_count']//p");
     private By etaLocator = By.xpath("//table[@class='item__eta_table table-striped not-visible']//td[2]");
-    private By pleaseWaitLocator = By.xpath("//div[@class='loading-overlay__inner']");
     private By completeSkuLocator = By.xpath("//input[@type='hidden'][@class='productCodePost']");
     private By clientPriceLocator = By.xpath("//dl[@class='search-results__pdm-content search-results__pdm-prices']//dt[contains(text(), 'P')]/following-sibling::dt[contains(text(), 'D')]/preceding-sibling::dd");
     private By accountNumberLocator = By.xpath("//span[@class='nav__account-number']");
     private By seasonTagLocator = By.xpath("//span[@class='c-season__label']");
+    private By runFlatTagLocator = By.xpath("//dl[@class='col-sm-12 col-md-6']//dt[contains(text(), 'Homologation')]/following-sibling::dt[contains(text(), 'Run-flat')]/following-sibling::dd");
+
+    //locators for search field checkboxes
     private By allSeasonCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[1]/form[1]/label[1]/span[1]/span[1]");
     private By allWeatherCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[2]/form[1]/label[1]/span[1]/span[1]");
     private By summerCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[3]/form[1]/label[1]/span[1]/span[1]");
+    private By notRunFlatCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[2]/ul[1]/li[1]/form[1]/label[1]/span[1]/span[1]");
+    private By runFlatCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[2]/ul[1]/li[2]/form[1]/label[1]/span[1]/span[1]");
 
     private String baseURL;
     private String driverPath;
@@ -55,9 +60,9 @@ public class SearchResultsPage extends NavigationBar{
     private String customerNumber;
     private String customerName;
     private String webdriverHeadless;
-    private String s4BaseURL;
-    private String s4AuthorizationName;
-    private String s4AuthorizationPassword;
+    private String s4BaseURL = "http://tch-s4hds1.grtouchette.com:8000/";
+    private String s4AuthorizationName = "kwang";
+    private String s4AuthorizationPassword = "Kabin321!!!";
     private List<String> xmlPriceListTypes = new ArrayList<String>();
     private List<String> xmlMaterialsList = new ArrayList<String>();
     public static String FILENAME = "";
@@ -67,7 +72,7 @@ public class SearchResultsPage extends NavigationBar{
     }
 
     public List getCompleteSkuList() {
-        List<WebElement> listCompleteSku = getLocatorSkuList(completeSkuLocator);
+        List<WebElement> listCompleteSku = initializeListByLocator(completeSkuLocator);
         return listCompleteSku;
     }
 
@@ -102,6 +107,16 @@ public class SearchResultsPage extends NavigationBar{
         click(summerCheckboxLocator);
     }
 
+    public void clickNotRunFlat() {
+        log.info("Clicking the Not Run-Flat checkbox");
+        click(notRunFlatCheckboxLocator);
+    }
+
+    public void clickRunFlat() {
+        log.info("Clicking the Run-Flat checkbox");
+        click(runFlatCheckboxLocator);
+    }
+
     //clicks "add to cart" for each item displayed on the search results page
     public void clickAddToCartForAll() {
         log.info("Adding one of each item to cart");
@@ -110,7 +125,7 @@ public class SearchResultsPage extends NavigationBar{
         listAddToCart.stream().forEach(element -> clickAndWait(element,notificationMessageLocator));
     }
 
-    //retrieves a list of web elements identified by a locator, returns the list in string form
+    //retrieves a list of web elements identified by the locator, returns the list in string form
     public  List getLocatorList(By locator) {
         List<WebElement> webElementList = findAll(locator);
         List<String> locatorStringList;
@@ -118,14 +133,15 @@ public class SearchResultsPage extends NavigationBar{
         return locatorStringList;
     }
 
-    public List getLocatorSkuList(By locator) {
+    //initialize a list of  strings
+    public List initializeListByLocator(By locator) {
         List<WebElement> webElementList = findAll(locator);
         List<String> locatorStringList;
         locatorStringList = webElementList.stream().map(element -> element.getAttribute("value")).collect(Collectors.toList());
         return locatorStringList;
     }
 
-    //getters for all the fields we store about each tire product
+    //methods that generate a list of attribute strings for every product on the page
     public  List getSkuList() {
         List<String> tempList = getLocatorList(skuLocator);
         return tempList;
@@ -170,8 +186,13 @@ public class SearchResultsPage extends NavigationBar{
         return tempList;
     }
 
-    public  List getSeasonList() {
+    public  List getSeasonTagList() {
         List<String> tempList = getLocatorList(seasonTagLocator);
+        return tempList;
+    }
+
+    public  List getRunFlatTagList() {
+        List<String> tempList = getLocatorList(runFlatTagLocator);
         return tempList;
     }
 
@@ -188,7 +209,7 @@ public class SearchResultsPage extends NavigationBar{
     //assigns all tire objects all attributes based search results
     public void assignAllTire(List<String> completeSkuList, List<String> tireNameList, List<String> msrpList,
                               List<String> suggPriceList, List<String> localAvailList,
-                              List<String> warehouseAvailList, List<String> etaList, List<String> clientPriceList, List<String> seasonList, List<Tire> tireList) {
+                              List<String> warehouseAvailList, List<String> etaList, List<String> clientPriceList, List<String> seasonTagList, List <String> runFlatTagList, List<Tire> tireList) {
 
         int counter = 0;
         for (Tire temp : tireList) {
@@ -221,7 +242,8 @@ public class SearchResultsPage extends NavigationBar{
 
             temp.setEta(etaList.get(counter));
             temp.setClientPrice(clientPriceList.get(counter));
-            temp.setSeasonTag((seasonList.get(counter)));
+            temp.setSeasonTag((seasonTagList.get(counter)));
+            temp.setRunFlatTag((runFlatTagList.get(counter)));
             counter++;
         }
     }
@@ -229,7 +251,7 @@ public class SearchResultsPage extends NavigationBar{
     public List<Tire> initListAssignAllTires() {
         List<Tire> tireList = new ArrayList<>();
         initializeTireList(getSkuList(), tireList);
-        assignAllTire(getCompleteSkuList(), getTireNameList(), getMSRPList(), getSuggPriceList(), getLocalList(), getWarehouseList(), getEtaList(), getClientPriceList(), getSeasonList(), tireList);
+        assignAllTire(getCompleteSkuList(), getTireNameList(), getMSRPList(), getSuggPriceList(), getLocalList(), getWarehouseList(), getEtaList(), getClientPriceList(), getSeasonTagList(), getRunFlatTagList(), tireList);
         return tireList;
     }
 
@@ -265,7 +287,7 @@ public class SearchResultsPage extends NavigationBar{
 
     public CustomerPricing getPricingFromS4(Tire tireProduct) throws IOException {
         String csrfToken = "";
-        PricingService service = Client.getRetrofitInstance("http://tch-s4hds1.grtouchette.com:8000/", "kwang", "Kabin321!!!")
+        PricingService service = Client.getRetrofitInstance(s4BaseURL, s4AuthorizationName, s4AuthorizationPassword)
                 .create(PricingService.class);
         Call<ResponseBody> call = service.getPricingCSRFToken();
 
@@ -280,7 +302,7 @@ public class SearchResultsPage extends NavigationBar{
         }
         //check x-csrf-token is empty or not
         if (csrfToken.isEmpty()) {
-            System.out.println("Didn't receive a x-csrf-token! Exit abnormal!");
+            System.out.println("Error: x-csrf-token loading failed");
             System.exit(1);
         }
         //get response' cookie set
@@ -290,9 +312,9 @@ public class SearchResultsPage extends NavigationBar{
         Call<CustomerPricing> callJson = service.postPricingSearchGson(requestPricingBody, csrfToken, cookieList);
         Response<CustomerPricing> customerPricingResponse = callJson.execute();
         if (customerPricingResponse.isSuccessful()) {
-            System.out.println("Retrieve Pricing from S4 API is successful");
+            System.out.println("S4 pricing API response was successful");
         } else {
-            System.out.println("Retrieve Pricing from S4 API failed! Exit abnormal!");
+            System.out.println("S4 pricing API response was unsuccessful");
             System.exit(1);
         }
         //Got Response body in JSON and converted to POJO object.
@@ -304,7 +326,7 @@ public class SearchResultsPage extends NavigationBar{
 //        String fullURL = "Customer eq '1006707' and Material eq '03476500000.CONT' and OrderQty eq '5' and RequestDate eq datetime'2022-03-15T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
         String fullURL = buildEtaApiString(tireProduct);
         String csrfToken = "";
-        EtaService service2 = Client.getRetrofitInstance("https://tch-s4hds1.grtouchette.com:44300/", "kwang", "Kabin321!!!").
+        EtaService service2 = Client.getRetrofitInstance(s4BaseURL, s4AuthorizationName, s4AuthorizationPassword).
                 create(EtaService.class);
         Call<ResponseBody> call = service2.getEtaCSRFToken();
 
@@ -319,7 +341,7 @@ public class SearchResultsPage extends NavigationBar{
         }
         //check x-csrf-token is empty or not
         if (csrfToken.isEmpty()) {
-            System.out.println("Didn't receive a x-csrf-token! Exit abnormal!");
+            System.out.println("Error: x-csrf-token loading failed");
             System.exit(1);
         }
         //get response' cookie set
@@ -332,9 +354,9 @@ public class SearchResultsPage extends NavigationBar{
 
         Response<EtaRequest> etaRequestResponse = callJson.execute();
         if (etaRequestResponse.isSuccessful()) {
-            System.out.println("Retrieving the ETA from S4 API was successful");
+            System.out.println("S4 ETA API response was successful");
         } else {
-            System.out.println("Retrieving the ETA from S4 API failed!");
+            System.out.println("S4 ETA API response was unsuccessful");
             System.exit(1);
         }
         //Got Response body in JSON and converted to POJO object.

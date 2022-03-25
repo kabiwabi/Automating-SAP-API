@@ -60,6 +60,7 @@ public class BasePageObject {
 	 *  check that the confirmation box appears and waits for it to disappear
 	 */
 	protected void clickAndWait(WebElement element, By popupLocator) {
+		sleepNow(500);
 		waitForVisibilityOfElement(element, 30);
 		element.click();
 		waitForVisibilityOf(popupLocator, 30);
@@ -261,6 +262,14 @@ public class BasePageObject {
 	public String getCookie(String name) {
 		log.info("Getting value of cookie " + name);
 		return driver.manage().getCookieNamed(name).getValue();
+	}
+
+	protected static void sleepNow(long millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -42,7 +42,7 @@ public class BrowserDriverFactory {
 		case "chromeheadless":
 			System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
 			ChromeOptions chromeOptions = new ChromeOptions();
-			chromeOptions.addArguments("--headless");
+			chromeOptions.addArguments("--headless", "--disable-gpu","--window-size=1920,1200","--ignore-certificate-errors", "--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
 			driver.set(new ChromeDriver(chromeOptions));
 			break;
 

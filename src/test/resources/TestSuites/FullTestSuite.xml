@@ -1,0 +1,43 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Full API and Front-End UI Test Suite" verbose="1">
+	<parameter name="hybrisUsername" value="jdoe@testgt.ca" />
+	<parameter name="hybrisPassword" value="1234" />
+	<parameter name="inputTireSize" value="225" />
+
+	<test name="All-Season Tag Test">
+		<parameter name="browser" value="chrome"></parameter>
+		<classes>
+			<class name="com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest" />
+		</classes>
+	</test>
+
+	<test name="All-Weather Tag Test">
+		<parameter name="browser" value="chrome"></parameter>
+		<classes>
+			<class name="com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest" />
+		</classes>
+	</test>
+
+	<test name="Summer Tag Test">
+		<parameter name="browser" value="chrome"></parameter>
+		<classes>
+			<class name="com.ondemand.commerce.AllTests.seasonTests.SummerTest" />
+		</classes>
+	</test>
+
+	<test name="Not-Run-Flat Tag Test">
+		<parameter name="browser" value="chrome"></parameter>
+		<classes>
+			<class name="com.ondemand.commerce.AllTests.runFlatTests.NotRunFlatTest" />
+		</classes>
+	</test>
+
+	<test name="Run-Flat Tag Test">
+		<parameter name="browser" value="chrome"></parameter>
+		<classes>
+			<class name="com.ondemand.commerce.AllTests.runFlatTests.RunFlatTest" />
+		</classes>
+	</test>
+
+</suite>
