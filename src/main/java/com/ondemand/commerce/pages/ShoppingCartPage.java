@@ -9,17 +9,17 @@ import java.util.*;
 
 public class ShoppingCartPage extends NavigationBar{
 
-    //locators for buttons on the shopping cart page
+    /** locators for buttons on the shopping cart page */
     private By removeButtonLocator = By.xpath("//button[@class='btn js-cartItemRemoveBtn']");
     private By closePopupButtonLocator = By.xpath("//button[@class='close closeAccAlert close-btn']");
     private By checkoutButtonLocator = By.xpath("//button[@class='btn btn-lg btn-primary btn--continue-checkout js-checkout-button']");
 
-    //constructor for "ShoppingCartPage" object
+    /** constructor for "ShoppingCartPage" object */
     public ShoppingCartPage(WebDriver driver, Logger log) {
         super(driver, log);
     }
 
-    //removes all items in the shopping cart by clicking "remove"
+    /** removes all items in the shopping cart by clicking "remove" */
     public void RemoveAllItems() {
         List<WebElement> listRemoveButtons = findAll(removeButtonLocator);
         Integer listSize = listRemoveButtons.size();
@@ -29,7 +29,7 @@ public class ShoppingCartPage extends NavigationBar{
         }
     }
 
-    //clicks the checkout button
+    /** clicks the checkout button */
     public CheckoutPage ClickCheckout() {
         log.info("Clicking the checkout button");
         click(checkoutButtonLocator);

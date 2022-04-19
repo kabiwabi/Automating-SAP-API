@@ -21,17 +21,17 @@ import java.util.stream.Collectors;
 
 public class SearchResultsPage extends NavigationBar{
 
-    //locators for standard buttons
+    /** locators for standard buttons */
     private By addToCartLocator = By.xpath("//button[@class='quantity-input__btn quantity-input__btn--up'][normalize-space()='+']");
     private By getEtaLocator = By.xpath("//button[@class='btn btn-primary btn-small viewETA viewETA--search']");
     private By addToOrderLocator = By.xpath("//button[@class='addToCartButton btn btn-primary btn-lg']");
     private By quantityLocator = By.xpath("//div[@class='quantity-input']//input");
 
-    //locator for the popup that occurs when you press "GET ETA"
+    /** locators for the popup that occurs when you press "GET ETA" */
     private By notificationMessageLocator = By.xpath("//p[@class='c-cart-notification__message']");
     private By pleaseWaitLocator = By.xpath("//div[@class='loading-overlay__inner']");
 
-    //locators for all fields we store about the tire products
+    /** locators for all fields we store about the tire products */
     private By msrpLocator = By.xpath("//*[@class='search-results__price-item search-results__price-item--msrp']");
     private By suggestedPriceLocator = By.xpath("//*[@class='search-results__price-item search-results__price-item-suggested']");
     private By skuLocator = By.xpath("//div[@class='sku']");
@@ -45,7 +45,7 @@ public class SearchResultsPage extends NavigationBar{
     private By seasonTagLocator = By.xpath("//span[@class='c-season__label']");
     private By runFlatTagLocator = By.xpath("//dl[@class='col-sm-12 col-md-6']//dt[contains(text(), 'Homologation')]/following-sibling::dt[contains(text(), 'Run-flat')]/following-sibling::dd");
 
-    //locators for search field checkboxes
+    /** locators for search field checkboxes */
     private By allSeasonCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[1]/form[1]/label[1]/span[1]/span[1]");
     private By allWeatherCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[2]/form[1]/label[1]/span[1]/span[1]");
     private By summerCheckboxLocator = By.xpath("/html[1]/body[1]/main[1]/div[3]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/ul[1]/li[3]/form[1]/label[1]/span[1]/span[1]");
@@ -76,7 +76,7 @@ public class SearchResultsPage extends NavigationBar{
         return listCompleteSku;
     }
 
-    //clicks the "+1" button for each item displayed on the search results page
+    /** clicks the "+1" button for each item displayed on the search results page */
     public void addToCart(String quantityToAdd) {
         log.info("Adding one of each item to count");
         scrollToTop();
@@ -84,14 +84,14 @@ public class SearchResultsPage extends NavigationBar{
         listAddToCart.stream().forEach( element -> element.sendKeys(quantityToAdd));
     }
 
-    //clicks "Get ETA" for each item displayed on the search results page
+    /** clicks "Get ETA" for each item displayed on the search results page */
     public void clickEtaForAll() {
         log.info("Clicking \"GET ETA\" for each item");
         scrollToTop();
         List<WebElement> listGetEta = findAll(getEtaLocator);
         listGetEta.stream().forEach(element -> clickAndWait(element, pleaseWaitLocator));
     }
-
+    /** clicks the checkbox */
     public void clickAllSeason() {
         log.info("Clicking the all-season checkbox");
         click(allSeasonCheckboxLocator);
@@ -117,7 +117,7 @@ public class SearchResultsPage extends NavigationBar{
         click(runFlatCheckboxLocator);
     }
 
-    //clicks "add to cart" for each item displayed on the search results page
+    /** clicks "add to cart" for each item displayed on the search results page */
     public void clickAddToCartForAll() {
         log.info("Adding one of each item to cart");
         scrollToTop();
@@ -125,7 +125,7 @@ public class SearchResultsPage extends NavigationBar{
         listAddToCart.stream().forEach(element -> clickAndWait(element,notificationMessageLocator));
     }
 
-    //retrieves a list of web elements identified by the locator, returns the list in string form
+    /** retrieves a list of web elements identified by the locator, returns the list in string form */
     public  List getLocatorList(By locator) {
         List<WebElement> webElementList = findAll(locator);
         List<String> locatorStringList;
@@ -133,7 +133,7 @@ public class SearchResultsPage extends NavigationBar{
         return locatorStringList;
     }
 
-    //initialize a list of  strings
+    /** initialize a list of  strings */
     public List initializeListByLocator(By locator) {
         List<WebElement> webElementList = findAll(locator);
         List<String> locatorStringList;
@@ -141,7 +141,7 @@ public class SearchResultsPage extends NavigationBar{
         return locatorStringList;
     }
 
-    //methods that generate a list of attribute strings for every product on the page
+    /** methods that generate a list of attributes(strings) for every product on the page */
     public  List getSkuList() {
         List<String> tempList = getLocatorList(skuLocator);
         return tempList;
@@ -196,8 +196,9 @@ public class SearchResultsPage extends NavigationBar{
         return tempList;
     }
 
-    //accepts a list of attributes (sku, tire name etc) & empty list of tire objects, counts the number of items
-    //populates the tire list with "count" number of empty tire objects
+    /** accepts a list of attributes (sku, tire name etc.) & empty list of tire objects, counts the number of items
+    * populates the tire list with "count" number of empty tire objects
+     **/
     public void initializeTireList(List<String> attributeStringList, List<Tire> tireList) {
         int listSize = attributeStringList.size();
         for (int i=0; i<listSize; i++) {
@@ -206,7 +207,7 @@ public class SearchResultsPage extends NavigationBar{
 
     }
 
-    //assigns all tire objects all attributes based search results
+    /** assigns all tire objects all attributes based search results */
     public void assignAllTire(List<String> completeSkuList, List<String> tireNameList, List<String> msrpList,
                               List<String> suggPriceList, List<String> localAvailList,
                               List<String> warehouseAvailList, List<String> etaList, List<String> clientPriceList, List<String> seasonTagList, List <String> runFlatTagList, List<Tire> tireList) {
@@ -248,6 +249,7 @@ public class SearchResultsPage extends NavigationBar{
         }
     }
 
+    /** initializes a list of tire objects */
     public List<Tire> initListAssignAllTires() {
         List<Tire> tireList = new ArrayList<>();
         initializeTireList(getSkuList(), tireList);
@@ -263,6 +265,10 @@ public class SearchResultsPage extends NavigationBar{
         myList.stream().forEach(System.out::println);
     }
 
+    /** Accepts a tire object and returns the correct JSON pricing body that will ultimately be passed to S4(backend).
+     *  This method retrieves the tire object's SKU which is the primary identifier of any product
+     *  for which we want to call APIs on (POST, GET).
+     */
     public RequestPricingBody initialRequestBodyJson(Tire tireProduct) {
 
         List<RequestPriceListTypesResult> requestPriceListTypesResults = new ArrayList<RequestPriceListTypesResult>();
@@ -285,6 +291,10 @@ public class SearchResultsPage extends NavigationBar{
         return requestPricingBody;
     }
 
+    /** Accepts a tire object, calls intialRequestBodyJSON on it to prepare the JSON body needed for API calls.
+     * Prepares th x-csrf-token validation & auth  needed to use the S4 API.
+     * Receives the API response and returns it as a POJO object.
+     */
     public CustomerPricing getPricingFromS4(Tire tireProduct) throws IOException {
         String csrfToken = "";
         PricingService service = Client.getRetrofitInstance(s4BaseURL, s4AuthorizationName, s4AuthorizationPassword)
@@ -322,6 +332,7 @@ public class SearchResultsPage extends NavigationBar{
         return customerPricing;
     }
 
+    /** uses the same logic as the getPricingFromS4 method but for the ETA API */
     public EtaRequest getETAfromS4(Tire tireProduct) throws IOException {
 //        String fullURL = "Customer eq '1006707' and Material eq '03476500000.CONT' and OrderQty eq '5' and RequestDate eq datetime'2022-03-15T00:00:00' and Studded eq false and ShippingMethod eq '01' and AcceptSaturday eq true";
         String fullURL = buildEtaApiString(tireProduct);
@@ -364,6 +375,7 @@ public class SearchResultsPage extends NavigationBar{
         return etaRequest;
         }
 
+        /** builds the URL necessary to use the ETA API */
         public String buildEtaApiString(Tire tireProduct){
         String customerNumber = find(accountNumberLocator).getText();
         customerNumber = customerNumber.substring(customerNumber.length() - 10);
@@ -371,6 +383,7 @@ public class SearchResultsPage extends NavigationBar{
         return etaUrlString;
         }
 
+        /** helper method for parsing hte ETA API response */
         public String parseCustomerPrice(String customerPrice) {
             String returnedString = "";
             int myIndex = 0;

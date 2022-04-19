@@ -20,26 +20,36 @@ public class PriceEtaApiTest extends TestUtilities {
 
     @Test
     public void temporaryTest() throws IOException {
-    // open main page
+    /** see PriceEtaApiTest class for a full walk through of the logic */
     LanguageSelectionPage welcomePage = new LanguageSelectionPage(driver, log);
     welcomePage.openPage();
-    log.info("Welcome page clicked succesfully!");
-    // Click on Form Authentication link
+    log.info("Welcome page clicked successfully!");
+
+    /** click on Form Authentication link */
     LoginPage loginPage = welcomePage.clickLanguageEnglish();
-    // execute log in
+
+    /** execute log in */
     HomePage homePage = loginPage.logIn("jdoe@testgt.ca", "1234");
-    // create a navigation bar instance and click search by specifications
+
+    /** create a navigation bar object and click search by specifications */
     NavigationBar navigationBar = new NavigationBar(driver,log);
     FindTiresBySpecificationPage bySpecificationPage = navigationBar.ClickFindTiresBySpecification();
     bySpecificationPage.FillTireSize("225");
-
     SearchResultsPage searchResults = bySpecificationPage.clickSearch();
-    // adds one of each product to the cart
+
+    /** adds one of each product to the cart */
     searchResults.addToCart("5");
-    // clicks get ETA for each product
+
+    /** clicks get ETA for each product */
     searchResults.clickEtaForAll();
+
+    /** initializes a list of all tire objects found on the search results page */
     List<Tire> tireListFull = searchResults.initListAssignAllTires();
 
+    /** Iterates over the list of tire products & calls both the pricing & ETA API on each product
+     * to retrieve what the price and ETA is on the S4 backend.
+     * Asserts that both the price & ETA on the frontend(commerce website) match the response from the backend.
+     */
     for(int i=0; i<tireListFull.size(); i++) {
         Tire tireProductIterate = tireListFull.get(i);
         CustomerPricing customerPricing = searchResults.getPricingFromS4(tireProductIterate);

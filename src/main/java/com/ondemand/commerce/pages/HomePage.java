@@ -6,16 +6,16 @@ import org.openqa.selenium.WebDriver;
 
 public class HomePage extends NavigationBar {
 
-	//URL for the hybris storefront
+	/** URL for the hybris storefront */
 	private String pageUrl = "https://accstorefront.cb46rr50dx-groupetou1-d1-nat.model-t.cc.commerce.ondemand.com/touchettestorefront/touchette/en/login";
 
-	//locators for logout button
+	/** locators for logout button */
 	private By logOutButton = By.xpath("//a[normalize-space()='Sign out']");
 
-	//locator for the confirmation message that the user has logged in
+	/** locator for the confirmation message that the user has logged in */
 	private By message = By.xpath("//li[@id='logged_in-user']");
 
-	//constructor for "HomePage" object
+	/** constructor for "HomePage" object */
 	public HomePage(WebDriver driver, Logger log) {
 		super(driver, log);
 	}

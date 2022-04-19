@@ -2,12 +2,12 @@
 <testng-results ignored="0" total="5" passed="5" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2022-03-22T13:00:24 EDT" name="Full API and Front-End UI Test Suite" finished-at="2022-03-22T13:05:15 EDT" duration-ms="291635">
+  <suite started-at="2022-04-12T10:14:43 EDT" name="Full API and Front-End UI Test Suite" finished-at="2022-04-12T10:22:02 EDT" duration-ms="439093">
     <groups>
     </groups>
-    <test started-at="2022-03-22T13:00:24 EDT" name="All-Season Tag Test" finished-at="2022-03-22T13:01:44 EDT" duration-ms="79997">
+    <test started-at="2022-04-12T10:14:43 EDT" name="All-Season Tag Test" finished-at="2022-04-12T10:16:48 EDT" duration-ms="125639">
       <class name="com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest">
-        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest@6b927fb]" started-at="2022-03-22T13:00:24 EDT" name="setUp" finished-at="2022-03-22T13:00:29 EDT" duration-ms="5015" status="PASS">
+        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest@37afeb11]" started-at="2022-04-12T10:14:44 EDT" name="setUp" finished-at="2022-04-12T10:14:50 EDT" duration-ms="5736" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -27,14 +27,14 @@
             </param>
             <param index="4">
               <value>
-                <![CDATA[org.testng.TestRunner@47c57d0f]]>
+                <![CDATA[org.testng.TestRunner@1325a2ba]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="allSeasonTest(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest@6b927fb]" started-at="2022-03-22T13:00:29 EDT" name="allSeasonTest" finished-at="2022-03-22T13:01:44 EDT" duration-ms="74375" status="PASS">
+        <test-method signature="allSeasonTest(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest@37afeb11]" started-at="2022-04-12T10:14:50 EDT" name="allSeasonTest" finished-at="2022-04-12T10:16:48 EDT" duration-ms="118574" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -55,15 +55,15 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- allSeasonTest -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest@6b927fb]" started-at="2022-03-22T13:01:44 EDT" name="tearDown" finished-at="2022-03-22T13:01:44 EDT" duration-ms="70" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest@37afeb11]" started-at="2022-04-12T10:16:48 EDT" name="tearDown" finished-at="2022-04-12T10:16:48 EDT" duration-ms="142" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
       </class> <!-- com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest -->
     </test> <!-- All-Season Tag Test -->
-    <test started-at="2022-03-22T13:01:44 EDT" name="All-Weather Tag Test" finished-at="2022-03-22T13:02:04 EDT" duration-ms="20556">
+    <test started-at="2022-04-12T10:16:48 EDT" name="All-Weather Tag Test" finished-at="2022-04-12T10:17:26 EDT" duration-ms="37728">
       <class name="com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest">
-        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest@34a3d150]" started-at="2022-03-22T13:01:44 EDT" name="setUp" finished-at="2022-03-22T13:01:48 EDT" duration-ms="3818" status="PASS">
+        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest@76505305]" started-at="2022-04-12T10:16:48 EDT" name="setUp" finished-at="2022-04-12T10:16:52 EDT" duration-ms="4195" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -83,14 +83,14 @@
             </param>
             <param index="4">
               <value>
-                <![CDATA[org.testng.TestRunner@7d6ec39c]]>
+                <![CDATA[org.testng.TestRunner@2980f2f1]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="allWeatherTest(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest@34a3d150]" started-at="2022-03-22T13:01:48 EDT" name="allWeatherTest" finished-at="2022-03-22T13:02:04 EDT" duration-ms="16672" status="PASS">
+        <test-method signature="allWeatherTest(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest@76505305]" started-at="2022-04-12T10:16:52 EDT" name="allWeatherTest" finished-at="2022-04-12T10:17:26 EDT" duration-ms="33333" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -111,15 +111,15 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- allWeatherTest -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest@34a3d150]" started-at="2022-03-22T13:02:04 EDT" name="tearDown" finished-at="2022-03-22T13:02:04 EDT" duration-ms="65" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest@76505305]" started-at="2022-04-12T10:17:26 EDT" name="tearDown" finished-at="2022-04-12T10:17:26 EDT" duration-ms="197" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
       </class> <!-- com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest -->
     </test> <!-- All-Weather Tag Test -->
-    <test started-at="2022-03-22T13:02:04 EDT" name="Summer Tag Test" finished-at="2022-03-22T13:03:02 EDT" duration-ms="57206">
+    <test started-at="2022-04-12T10:17:26 EDT" name="Summer Tag Test" finished-at="2022-04-12T10:18:50 EDT" duration-ms="84454">
       <class name="com.ondemand.commerce.AllTests.seasonTests.SummerTest">
-        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.SummerTest@7cc0cdad]" started-at="2022-03-22T13:02:04 EDT" name="setUp" finished-at="2022-03-22T13:02:08 EDT" duration-ms="3798" status="PASS">
+        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.SummerTest@4802796d]" started-at="2022-04-12T10:17:26 EDT" name="setUp" finished-at="2022-04-12T10:17:30 EDT" duration-ms="4090" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -139,14 +139,14 @@
             </param>
             <param index="4">
               <value>
-                <![CDATA[org.testng.TestRunner@26948caa]]>
+                <![CDATA[org.testng.TestRunner@1f9d6cb3]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="summerTest(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.SummerTest@7cc0cdad]" started-at="2022-03-22T13:02:08 EDT" name="summerTest" finished-at="2022-03-22T13:03:01 EDT" duration-ms="53285" status="PASS">
+        <test-method signature="summerTest(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.SummerTest@4802796d]" started-at="2022-04-12T10:17:30 EDT" name="summerTest" finished-at="2022-04-12T10:18:50 EDT" duration-ms="80238" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -167,15 +167,15 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- summerTest -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.SummerTest@7cc0cdad]" started-at="2022-03-22T13:03:01 EDT" name="tearDown" finished-at="2022-03-22T13:03:02 EDT" duration-ms="121" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.AllTests.seasonTests.SummerTest@4802796d]" started-at="2022-04-12T10:18:50 EDT" name="tearDown" finished-at="2022-04-12T10:18:50 EDT" duration-ms="123" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
       </class> <!-- com.ondemand.commerce.AllTests.seasonTests.SummerTest -->
     </test> <!-- Summer Tag Test -->
-    <test started-at="2022-03-22T13:03:02 EDT" name="Not-Run-Flat Tag Test" finished-at="2022-03-22T13:04:09 EDT" duration-ms="67950">
+    <test started-at="2022-04-12T10:18:51 EDT" name="Not-Run-Flat Tag Test" finished-at="2022-04-12T10:20:28 EDT" duration-ms="97673">
       <class name="com.ondemand.commerce.AllTests.runFlatTests.NotRunFlatTest">
-        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.NotRunFlatTest@48f2bd5b]" started-at="2022-03-22T13:03:02 EDT" name="setUp" finished-at="2022-03-22T13:03:05 EDT" duration-ms="3819" status="PASS">
+        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.NotRunFlatTest@78691363]" started-at="2022-04-12T10:18:51 EDT" name="setUp" finished-at="2022-04-12T10:18:55 EDT" duration-ms="4176" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -195,14 +195,14 @@
             </param>
             <param index="4">
               <value>
-                <![CDATA[org.testng.TestRunner@7a80f60c]]>
+                <![CDATA[org.testng.TestRunner@61a7ed9c]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="NotRunFlatTest(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.NotRunFlatTest@48f2bd5b]" started-at="2022-03-22T13:03:05 EDT" name="NotRunFlatTest" finished-at="2022-03-22T13:04:09 EDT" duration-ms="64051" status="PASS">
+        <test-method signature="NotRunFlatTest(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.NotRunFlatTest@78691363]" started-at="2022-04-12T10:18:55 EDT" name="NotRunFlatTest" finished-at="2022-04-12T10:20:28 EDT" duration-ms="93307" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -223,15 +223,15 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- NotRunFlatTest -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.NotRunFlatTest@48f2bd5b]" started-at="2022-03-22T13:04:09 EDT" name="tearDown" finished-at="2022-03-22T13:04:09 EDT" duration-ms="77" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.NotRunFlatTest@78691363]" started-at="2022-04-12T10:20:28 EDT" name="tearDown" finished-at="2022-04-12T10:20:28 EDT" duration-ms="185" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
       </class> <!-- com.ondemand.commerce.AllTests.runFlatTests.NotRunFlatTest -->
     </test> <!-- Not-Run-Flat Tag Test -->
-    <test started-at="2022-03-22T13:04:09 EDT" name="Run-Flat Tag Test" finished-at="2022-03-22T13:05:15 EDT" duration-ms="65889">
+    <test started-at="2022-04-12T10:20:28 EDT" name="Run-Flat Tag Test" finished-at="2022-04-12T10:22:02 EDT" duration-ms="93520">
       <class name="com.ondemand.commerce.AllTests.runFlatTests.RunFlatTest">
-        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.RunFlatTest@55182842]" started-at="2022-03-22T13:04:09 EDT" name="setUp" finished-at="2022-03-22T13:04:13 EDT" duration-ms="3864" status="PASS">
+        <test-method is-config="true" signature="setUp(java.lang.reflect.Method,java.lang.String,java.lang.String,java.lang.String,org.testng.ITestContext)[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.RunFlatTest@639c2c1d]" started-at="2022-04-12T10:20:28 EDT" name="setUp" finished-at="2022-04-12T10:20:32 EDT" duration-ms="4071" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -251,14 +251,14 @@
             </param>
             <param index="4">
               <value>
-                <![CDATA[org.testng.TestRunner@1641c156]]>
+                <![CDATA[org.testng.TestRunner@5fa9a360]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method signature="RunFlatTest(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.RunFlatTest@55182842]" started-at="2022-03-22T13:04:13 EDT" name="RunFlatTest" finished-at="2022-03-22T13:05:15 EDT" duration-ms="61954" status="PASS">
+        <test-method signature="RunFlatTest(java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.RunFlatTest@639c2c1d]" started-at="2022-04-12T10:20:32 EDT" name="RunFlatTest" finished-at="2022-04-12T10:22:02 EDT" duration-ms="89263" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -279,7 +279,7 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- RunFlatTest -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.RunFlatTest@55182842]" started-at="2022-03-22T13:05:15 EDT" name="tearDown" finished-at="2022-03-22T13:05:15 EDT" duration-ms="69" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.ondemand.commerce.AllTests.runFlatTests.RunFlatTest@639c2c1d]" started-at="2022-04-12T10:22:02 EDT" name="tearDown" finished-at="2022-04-12T10:22:02 EDT" duration-ms="182" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->

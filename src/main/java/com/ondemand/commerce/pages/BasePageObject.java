@@ -133,8 +133,9 @@ public class BasePageObject {
 		}
 	}
 
-	//accepts a locator & integer,
-	// waits for "integer" seconds for the web element identified by the locator to become invisible
+	/** accepts a locator & integer,
+	 * waits for "integer" seconds for the web element identified by the locator to become invisible
+	 */
 	protected void waitForInvisibilityOf(By locator, Integer... timeOutInSeconds) {
 		int attempts = 0;
 		while (attempts < 10) {
@@ -148,8 +149,9 @@ public class BasePageObject {
 		}
 	}
 
-	//accepts a web element object & integer,
-	//waits for "integer" seconds for the web element identified by the locator to become invisible
+	/** accepts a web element object & integer,
+	* waits for "integer" seconds for the web element identified by the locator to become invisible
+	 * */
 	protected void waitForVisibilityOfElement(WebElement element, Integer... timeOutInSeconds) {
 		int attempts = 0;
 		while (attempts < 10) {
@@ -168,24 +170,6 @@ public class BasePageObject {
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.alertIsPresent());
 		return driver.switchTo().alert();
-	}
-
-	public void switchToWindowWithTitle(String expectedTitle) {
-		// Switching to new window
-		String firstWindow = driver.getWindowHandle();
-
-		Set<String> allWindows = driver.getWindowHandles();
-		Iterator<String> windowsIterator = allWindows.iterator();
-
-		while (windowsIterator.hasNext()) {
-			String windowHandle = windowsIterator.next().toString();
-			if (!windowHandle.equals(firstWindow)) {
-				driver.switchTo().window(windowHandle);
-				if (getCurrentPageTitle().equals(expectedTitle)) {
-					break;
-				}
-			}
-		}
 	}
 
 	/** Switch to iFrame using it's locator */
@@ -219,38 +203,6 @@ public class BasePageObject {
 		js.executeScript("arguments[0].scrollIntoView();", element);
 	}
 
-	/** Drag 'from' element to 'to' element */
-	protected void performDragAndDrop(By from, By to) {
-		// Actions action = new Actions(driver);
-		// action.dragAndDrop(find(from), find(to)).build().perform();
-
-		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-		jsExecutor.executeScript(
-				"function createEvent(typeOfEvent) {\n" + "var event =document.createEvent(\"CustomEvent\");\n"
-						+ "event.initCustomEvent(typeOfEvent,true, true, null);\n" + "event.dataTransfer = {\n"
-						+ "data: {},\n" + "setData: function (key, value) {\n" + "this.data[key] = value;\n" + "},\n"
-						+ "getData: function (key) {\n" + "return this.data[key];\n" + "}\n" + "};\n"
-						+ "return event;\n" + "}\n" + "\n" + "function dispatchEvent(element, event,transferData) {\n"
-						+ "if (transferData !== undefined) {\n" + "event.dataTransfer = transferData;\n" + "}\n"
-						+ "if (element.dispatchEvent) {\n" + "element.dispatchEvent(event);\n"
-						+ "} else if (element.fireEvent) {\n" + "element.fireEvent(\"on\" + event.type, event);\n"
-						+ "}\n" + "}\n" + "\n" + "function simulateHTML5DragAndDrop(element, destination) {\n"
-						+ "var dragStartEvent =createEvent('dragstart');\n"
-						+ "dispatchEvent(element, dragStartEvent);\n" + "var dropEvent = createEvent('drop');\n"
-						+ "dispatchEvent(destination, dropEvent,dragStartEvent.dataTransfer);\n"
-						+ "var dragEndEvent = createEvent('dragend');\n"
-						+ "dispatchEvent(element, dragEndEvent,dropEvent.dataTransfer);\n" + "}\n" + "\n"
-						+ "var source = arguments[0];\n" + "var destination = arguments[1];\n"
-						+ "simulateHTML5DragAndDrop(source,destination);",
-				find(from), find(to));
-	}
-
-	/** Perform mouse hover over element */
-	protected void hoverOverElement(WebElement element) {
-		Actions action = new Actions(driver);
-		action.moveToElement(element).build().perform();
-	}
-
 	/** Add cookie */
 	public void setCookie(Cookie ck) {
 		log.info("Adding cookie " + ck.getName());
@@ -264,6 +216,7 @@ public class BasePageObject {
 		return driver.manage().getCookieNamed(name).getValue();
 	}
 
+	/** sleep for milis seconds */
 	protected static void sleepNow(long millis) {
 		try {
 			Thread.sleep(millis);

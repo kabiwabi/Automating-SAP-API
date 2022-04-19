@@ -17,6 +17,7 @@ public class Client {
     private CustomerPricing customerPricing;
     private static Retrofit retrofit;
 
+    //builder for the connector
     public static Retrofit getRetrofitInstance(String baseURL, String authUsername, String authPassword) {
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(new Interceptor() {
             @Override

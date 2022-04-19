@@ -4,16 +4,16 @@
   <parameter name="hybrisUsername" value="jdoe@testgt.ca"/>
   <parameter name="hybrisPassword" value="1234"/>
   <parameter name="inputTireSize" value="225"/>
-  <test thread-count="5" name="All-Weather Tag Test(failed)">
+  <test thread-count="5" name="All-Season Tag Test(failed)">
     <parameter name="browser" value="chromeheadless"/>
     <classes>
-      <class name="com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest">
+      <class name="com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest">
         <methods>
           <include name="setUp"/>
+          <include name="allSeasonTest" invocation-numbers="0"/>
           <include name="tearDown"/>
-          <include name="allWeatherTest" invocation-numbers="0"/>
         </methods>
-      </class> <!-- com.ondemand.commerce.AllTests.seasonTests.AllWeatherTest -->
+      </class> <!-- com.ondemand.commerce.AllTests.seasonTests.AllSeasonTest -->
     </classes>
-  </test> <!-- All-Weather Tag Test(failed) -->
+  </test> <!-- All-Season Tag Test(failed) -->
 </suite> <!-- Failed suite [Full API and Front-End UI Test Suite] -->

@@ -21,6 +21,7 @@ public class LanguageSelectionPage extends BasePageObject {
 		log.info("Page opened!");
 	}
 
+	/** Select language option as english */
 	public LoginPage clickLanguageEnglish() {
 		log.info("Successfully selected english language");
 		click(englishLanguageButtonLocator);

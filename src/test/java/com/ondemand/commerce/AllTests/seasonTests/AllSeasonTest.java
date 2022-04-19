@@ -26,15 +26,15 @@ public class AllSeasonTest extends TestUtilities {
     @Test
     @Parameters({"hybrisUsername", "hybrisPassword", "inputTireSize"})
     public void allSeasonTest(String hybrisUsername, String hybrisPassword, String inputTireSize) throws IOException {
-        // open main page
+        /**  For a full walk through of the standard logic behind a test see PriceEtaApiTest class */
         LanguageSelectionPage welcomePage = new LanguageSelectionPage(driver, log);
         welcomePage.openPage();
         log.info("Welcome page clicked successfully!");
-        // Click on Form Authentication link
+
         LoginPage loginPage = welcomePage.clickLanguageEnglish();
-        // execute log in
+
         HomePage homePage = loginPage.logIn(hybrisUsername, hybrisPassword);
-        // create a navigation bar instance and click search by specifications
+
         NavigationBar navigationBar = new NavigationBar(driver,log);
         takeScreenshot("DebugSearchNotFound123");
         FindTiresBySpecificationPage bySpecificationPage = navigationBar.ClickFindTiresBySpecification();
@@ -42,9 +42,9 @@ public class AllSeasonTest extends TestUtilities {
         SearchResultsPage searchResults = bySpecificationPage.clickSearch();
 
         searchResults.clickAllSeason();
-        // adds one of each product to the cart
+
         searchResults.addToCart("5");
-        // clicks get ETA for each product
+
         searchResults.clickEtaForAll();
         List<Tire> tireListFull = searchResults.initListAssignAllTires();
 
